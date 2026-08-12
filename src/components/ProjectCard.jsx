@@ -14,12 +14,15 @@ export default function ProjectCard({ project, index }) {
             className="group relative w-full cursor-pointer"
         >
             <Link href={`/projects/${project.id}`} className="block h-full">
-                <div className="relative overflow-hidden rounded-3xl bg-white/5 border border-white/10 aspect-[16/10] transition-all duration-500 group-hover:border-white/20 group-hover:shadow-2xl group-hover:shadow-primary/10">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 border border-white/10 aspect-[16/10] transition-all duration-500 group-hover:border-white/20 group-hover:shadow-2xl group-hover:shadow-primary/20 group-hover:-translate-y-2">
                     {/* Gradient Background */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20 group-hover:opacity-30 transition-opacity duration-500`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-10 group-hover:opacity-20 transition-opacity duration-500`} />
 
                     {/* Noise Texture Overlay */}
                     <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+
+                    {/* Glow Effect */}
+                    <div className="absolute -inset-full top-0 block h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
 
                     <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
                         <div className="flex justify-between items-start">
@@ -35,11 +38,11 @@ export default function ProjectCard({ project, index }) {
                             </div>
                         </div>
 
-                        <div className="transform transition-transform duration-500 group-hover:-translate-y-2">
-                            <h3 className="text-3xl font-heading font-bold text-white mb-3">
+                        <div className="transform transition-transform duration-500">
+                            <h3 className="text-3xl font-heading font-bold text-white mb-3 tracking-tight">
                                 {project.title}
                             </h3>
-                            <p className="text-white/70 line-clamp-2 text-sm leading-relaxed max-w-[90%]">
+                            <p className="text-white/70 line-clamp-2 text-sm leading-relaxed max-w-[90%] font-light">
                                 {project.description}
                             </p>
                         </div>

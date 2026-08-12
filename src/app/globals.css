@@ -1,38 +1,94 @@
 @import "tailwindcss";
 
+@plugin "tailwindcss-animate";
+
+:root {
+  /* Light Mode */
+  --background: #fafafa;
+  --foreground: #0f172a;
+
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+
+  --secondary: #10b981;
+  --secondary-foreground: #ffffff;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --accent: #06b6d4;
+  --accent-foreground: #ffffff;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --border: #e2e8f0;
+}
+
+.dark {
+  /* Dark Mode */
+  --background: #030303;
+  --foreground: #f3f4f6;
+
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+
+  --secondary: #10b981;
+  --secondary-foreground: #ffffff;
+
+  --muted: #0a0a0a;
+  --muted-foreground: #a1a1aa;
+
+  --accent: #06b6d4;
+  --accent-foreground: #ffffff;
+
+  --card: #0a0a0a;
+  --card-foreground: #f3f4f6;
+
+  --border: #27272a;
+}
+
 @theme {
-  --color-background: #050505;
-  --color-foreground: #f3f4f6;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-  --color-primary: #6366f1;
-  --color-primary-foreground: #ffffff;
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 
-  --color-secondary: #10b981;
-  --color-secondary-foreground: #ffffff;
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
 
-  --color-muted: #121212;
-  --color-muted-foreground: #9ca3af;
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 
-  --color-accent: #06b6d4;
-  --color-accent-foreground: #ffffff;
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-border: var(--border);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
 
   --animate-gradient: gradient 8s linear infinite;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-ping: ping 1.2s cubic-bezier(0,0,0.2,1) infinite;
 
   @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-    50% {
-      background-position: 100% 50%;
-    }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 
-    100% {
-      background-position: 0% 50%;
-    }
+  @keyframes ping {
+    75%, 100% { transform: scale(2); opacity: 0; }
   }
 }
 
@@ -41,20 +97,99 @@
   text-wrap: balance;
 }
 
+/* Glass effect — works in both light and dark */
+@utility glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* Base styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--color-foreground);
   background: var(--color-background);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+}
+
+/* Selection */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: #fff;
+}
+
+/* Stroke text */
+.stroke-text {
+  -webkit-text-stroke: 1px currentColor;
+  color: transparent;
+}
+
+/* Marquee animation */
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
+}
+
+/* Ping animation for availability dot */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Section divider gradient */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+  margin: 0 auto;
+  max-width: 80rem;
 }

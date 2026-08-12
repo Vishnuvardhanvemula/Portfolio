@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function MagneticButton({ children, className = "" }) {
     const ref = useRef(null);
@@ -30,6 +30,7 @@ export default function MagneticButton({ children, className = "" }) {
             onMouseLeave={reset}
             animate={{ x, y }}
             transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+            className={className}
         >
             {children}
         </motion.div>
