@@ -1,174 +1,154 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { ArrowRight, Download, Sparkles } from "lucide-react";
-import MagneticButton from "@/components/ui/MagneticButton";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
-const Scene = dynamic(() => import("@/components/3d/Scene"), { ssr: false });
-
-const roles = [
-    "AI Engineer",
-    "Full Stack Developer",
-    "ML Enthusiast",
-    "Problem Solver",
-];
-
-function SectionLabel({ number, label }) {
-    return (
-        <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs text-primary/70 tracking-widest">// {number.toString().padStart(2, "0")}</span>
-            <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
-        </div>
-    );
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
-    const [roleIndex, setRoleIndex] = useState(0);
+  const containerRef = useRef(null);
+  const pinRef = useRef(null);
+  
+  const prefersReduced = usePrefersReducedMotion();
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setRoleIndex((prev) => (prev + 1) % roles.length);
-        }, 2500);
-        return () => clearInterval(interval);
-    }, []);
+  useEffect(() => {
+    if (prefersReduced) return;
 
-    return (
-        <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-            {/* 3D Background */}
-            <div className="absolute inset-0 z-0 opacity-60">
-                <Scene />
+    const ctx = gsap.context(() => {
+      // 1. Cinematic Scroll Choreography
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: pinRef.current,
+          start: "top top",
+          end: "+=150%", // Pin for 150% of viewport height
+          scrub: 1.2,    // Buttery smooth scrub
+          pin: true,
+          anticipatePin: 1,
+        }
+      });
+
+      const lockupFirst = ".lockup-first";
+      const lockupLast = ".lockup-last";
+      const microTexts = gsap.utils.toArray(".micro-text");
+      const ambient1 = ".animate-ambient-1";
+      const ambient2 = ".animate-ambient-2";
+      const grain = ".hero-grain";
+
+      tl.to(ambient1, {
+        scale: 1.5,
+        opacity: 0.8,
+        yPercent: -20,
+        ease: "none",
+      }, 0)
+      .to(ambient2, {
+        scale: 1.5,
+        opacity: 0.8,
+        yPercent: 20,
+        ease: "none",
+      }, 0)
+      .to(grain, {
+        opacity: 0.7,
+        ease: "none",
+      }, 0)
+      .to(lockupFirst, {
+        yPercent: -50,
+        opacity: 0,
+        filter: "blur(12px)",
+        ease: "power2.inOut",
+      }, 0)
+      .to(lockupLast, {
+        yPercent: -30, // Moves slightly slower than the first name to create parallax
+        opacity: 0,
+        filter: "blur(12px)",
+        ease: "power2.inOut",
+      }, 0)
+      .to(microTexts, {
+        opacity: 0,
+        y: -20,
+        stagger: 0.02,
+        ease: "power2.in",
+      }, 0);
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, [prefersReduced]);
+
+  return (
+    <section ref={containerRef} className="relative w-full bg-void">
+      {/* Pinned Container - Exact match to Preloader DOM */}
+      <div ref={pinRef} className="relative h-screen w-full overflow-hidden">
+        
+        {/* Structural Crosshairs */}
+        <svg className="absolute top-8 left-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
+        <svg className="absolute top-8 right-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
+        <svg className="absolute bottom-8 left-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
+        <svg className="absolute bottom-8 right-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
+
+        {/* Ambient Cinematic Background (Crimson & Ember) */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-[10%] left-[10%] w-[50vw] h-[50vw] bg-red-600/20 rounded-full blur-[100px] mix-blend-screen animate-ambient-1" />
+          <div className="absolute bottom-[10%] right-[10%] w-[60vw] h-[60vw] bg-orange-600/20 rounded-full blur-[120px] mix-blend-screen animate-ambient-2" />
+          <div className="absolute top-[40%] left-[40%] w-[40vw] h-[40vw] bg-purple-900/30 rounded-full blur-[90px] mix-blend-screen animate-ambient-3" />
+          <div className="absolute inset-0 opacity-40 mix-blend-overlay hero-grain" />
+        </div>
+
+        {/* Perimeter Micro-Grid */}
+        <div className="absolute inset-0 z-10 p-6 md:p-12 pointer-events-none flex flex-col justify-between">
+          {/* Top */}
+          <div className="flex justify-between items-start">
+            <div className="flex flex-col gap-1 overflow-hidden">
+              <span className="font-mono text-[9px] tracking-[0.4em] text-white uppercase block micro-text">
+                AI Engineer
+              </span>
+              <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase block micro-text">
+                Creative Developer
+              </span>
             </div>
-
-            {/* Radial gradient overlay to fade 3D into background */}
-            <div className="absolute inset-0 z-[1] bg-radial-gradient pointer-events-none"
-                style={{
-                    background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, var(--background) 100%)"
-                }}
-            />
-
-            {/* Grid overlay */}
-            <div
-                className="absolute inset-0 z-[1] opacity-[0.03] pointer-events-none"
-                style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
-                    backgroundSize: "80px 80px"
-                }}
-            />
-
-            {/* Content */}
-            <div className="relative z-10 w-full max-w-7xl px-6 flex flex-col items-start justify-center">
-
-                {/* Availability Badge */}
-                <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="mb-8 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 backdrop-blur-sm"
-                >
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                    </span>
-                    <span className="text-xs font-medium text-green-400 font-mono">Open to opportunities</span>
-                </motion.div>
-
-                {/* Name */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                    className="text-6xl md:text-8xl lg:text-9xl font-heading font-bold tracking-tighter text-white leading-none mb-4"
-                >
-                    Vishnu
-                    <br />
-                    <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
-                        Vardhan
-                    </span>
-                </motion.h1>
-
-                {/* Animated Role */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8 }}
-                    className="flex items-center gap-3 mb-8 h-10"
-                >
-                    <span className="text-muted-foreground text-lg md:text-2xl font-light">I&apos;m a</span>
-                    <div className="relative overflow-hidden h-10 min-w-[200px]">
-                        <AnimatePresence mode="wait">
-                            <motion.span
-                                key={roleIndex}
-                                initial={{ y: 40, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ y: -40, opacity: 0 }}
-                                transition={{ duration: 0.35, ease: "easeInOut" }}
-                                className="absolute text-lg md:text-2xl font-semibold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent whitespace-nowrap"
-                            >
-                                {roles[roleIndex]}
-                            </motion.span>
-                        </AnimatePresence>
-                    </div>
-                </motion.div>
-
-                {/* Description */}
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.7 }}
-                    className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mb-12 font-light"
-                >
-                    Building intelligent systems at the intersection of{" "}
-                    <span className="text-foreground font-medium">code</span> and{" "}
-                    <span className="text-foreground font-medium">data</span>.
-                    From AI agents to full-stack apps — I ship things that matter.
-                </motion.p>
-
-                {/* CTAs */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2 }}
-                    className="flex flex-wrap items-center gap-4"
-                >
-                    <MagneticButton>
-                        <a
-                            href="#work"
-                            className="group inline-flex h-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-8 font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/30"
-                        >
-                            <span className="mr-2 text-base">View My Work</span>
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </a>
-                    </MagneticButton>
-
-                    <MagneticButton>
-                        <a
-                            href="/resume.pdf"
-                            download
-                            className="group inline-flex h-14 items-center justify-center gap-2 rounded-full bg-white/5 border border-white/15 text-white/90 px-8 font-medium transition-all duration-300 hover:bg-white/10 hover:border-white/30"
-                        >
-                            <Download className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-base">Resume</span>
-                        </a>
-                    </MagneticButton>
-                </motion.div>
+            <div className="overflow-hidden">
+              <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase block micro-text">
+                [ ONLINE ]
+              </span>
             </div>
+          </div>
 
-            {/* Scroll Indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-            >
-                <span className="font-mono text-xs text-muted-foreground tracking-widest">SCROLL</span>
-                <motion.div
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-[1px] h-12 bg-gradient-to-b from-primary/60 to-transparent"
-                />
-            </motion.div>
-        </section>
-    );
+          {/* Bottom */}
+          <div className="flex justify-between items-end">
+            <div className="overflow-hidden">
+              <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase block micro-text">
+                Based in India
+              </span>
+            </div>
+            <div className="flex gap-6 overflow-hidden">
+              <span className="font-mono text-[9px] tracking-[0.4em] text-white uppercase block micro-text">Github</span>
+              <span className="font-mono text-[9px] tracking-[0.4em] text-white uppercase block micro-text">LinkedIn</span>
+            </div>
+            <div className="overflow-hidden">
+              <span className="font-mono text-[9px] tracking-[0.4em] text-accent uppercase block micro-text drop-shadow-[0_0_8px_rgba(230,0,0,0.8)]">
+                Scroll to Explore
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Massive Typographic Lockup */}
+        <div className="relative z-20 flex-1 flex flex-col items-center justify-center pointer-events-none w-full h-full">
+          <div className="flex flex-col items-center leading-[0.8] tracking-tighter">
+            <div className="overflow-hidden pb-2">
+              <h1 className="font-display font-bold text-[18vw] md:text-[14vw] text-ghost uppercase lockup-first tracking-[-0.04em]">
+                VISHNU
+              </h1>
+            </div>
+            <div className="overflow-hidden -mt-[6vw] md:-mt-[4vw] ml-[20vw] pb-6">
+              <h1 className="font-serif italic font-medium text-[20vw] md:text-[16vw] text-outline lockup-last pr-4 mix-blend-screen">
+                Vardhan.
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

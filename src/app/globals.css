@@ -1,195 +1,387 @@
 @import "tailwindcss";
-
 @plugin "tailwindcss-animate";
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — globals.css
+   Source of truth for all CSS custom properties.
+   See design_system.md for rationale behind every decision.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Color Tokens ─────────────────────────────────────────────────────────── */
 :root {
-  /* Light Mode */
-  --background: #fafafa;
-  --foreground: #0f172a;
+  /* Surfaces */
+  --color-void:    #000000;    /* page background - pure black for max contrast */
+  --color-ink:     #0A0A0F;    /* card / panel surface */
+  --color-border:  #1A1A24;    /* structural dividers */
+  --color-smoke:   #2E2E3A;    /* disabled / very subtle */
 
-  --primary: #4f46e5;
-  --primary-foreground: #ffffff;
+  /* Text */
+  --color-ash:     #6B6B7E;    /* metadata, labels */
+  --color-mist:    #A8A8B8;    /* body text, descriptions */
+  --color-paper:   #E8E8F0;    /* primary text */
+  --color-ghost:   #F5F5FA;    /* display headings, peak emphasis */
 
-  --secondary: #10b981;
-  --secondary-foreground: #ffffff;
+  /* Accent — appears ≤ 3× per page (Crimson Blood Red) */
+  --color-accent:      #E60000;
+  --color-accent-glow: #E6000033; /* 20% opacity ambient only */
+  --color-accent-deep: #B30000;   /* pressed / active */
 
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
+  /* Signal — availability only */
+  --color-signal:      #00E87A;
+  --color-signal-glow: #00E87A22;
 
-  --accent: #06b6d4;
-  --accent-foreground: #ffffff;
-
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-
-  --border: #e2e8f0;
+  /* ── Semantic aliases (used by Tailwind utilities) ── */
+  --background:         var(--color-void);
+  --foreground:         var(--color-paper);
+  --primary:            var(--color-accent);
+  --primary-foreground: var(--color-ghost);
+  --secondary:          var(--color-ink);
+  --muted:              var(--color-ink);
+  --muted-foreground:   var(--color-ash);
+  --accent:            350 100% 45%; /* Crimson Red */
+  --accent-foreground: 0 0% 100%;
+  --card:               var(--color-ink);
+  --card-foreground:    var(--color-paper);
+  --border:             var(--color-border);
+  --input:              var(--color-ink);
+  --ring:               var(--color-accent);
 }
 
-.dark {
-  /* Dark Mode */
-  --background: #030303;
-  --foreground: #f3f4f6;
-
-  --primary: #6366f1;
-  --primary-foreground: #ffffff;
-
-  --secondary: #10b981;
-  --secondary-foreground: #ffffff;
-
-  --muted: #0a0a0a;
-  --muted-foreground: #a1a1aa;
-
-  --accent: #06b6d4;
-  --accent-foreground: #ffffff;
-
-  --card: #0a0a0a;
-  --card-foreground: #f3f4f6;
-
-  --border: #27272a;
+/* Light mode — minimal, keep dark-first as default */
+.light {
+  --background:       #F5F5FA;
+  --foreground:       #0D0D12;
+  --muted:            #E8E8F0;
+  --muted-foreground: #6B6B7E;
+  --card:             #FFFFFF;
+  --card-foreground:  #0D0D12;
+  --border:           #E0E0EC;
 }
 
+/* ── Tailwind v4 Theme Registration ─────────────────────────────────────── */
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Custom Design System Tokens */
+  --color-void:              var(--color-void);
+  --color-ink:               var(--color-ink);
+  --color-smoke:             var(--color-smoke);
+  --color-ash:               var(--color-ash);
+  --color-mist:              var(--color-mist);
+  --color-paper:             var(--color-paper);
+  --color-ghost:             var(--color-ghost);
+  --color-signal:            var(--color-signal);
+  --color-accent-glow:       var(--color-accent-glow);
+  --color-accent-deep:       var(--color-accent-deep);
 
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-
-  --color-accent: var(--accent);
+  /* Default Tokens */
+  --color-background:        var(--background);
+  --color-foreground:        var(--foreground);
+  --color-primary-foreground:var(--primary-foreground);
+  --color-secondary:         var(--secondary);
+  --color-muted:             var(--muted);
+  --color-muted-foreground:  var(--muted-foreground);
+  --color-accent:            var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-card:              var(--card);
+  --color-card-foreground:   var(--card-foreground);
+  --color-border:            var(--border);
 
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
+  /* ── Font families (from layout.js next/font) ── */
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans:    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
+  --font-serif:   var(--font-playfair), ui-serif, Georgia, serif;
 
-  --color-border: var(--border);
+  /* ── Fluid type scale ── */
+  --text-display:    clamp(4rem,   10vw, 9rem);
+  --text-display-sm: clamp(2.75rem, 6vw, 5.5rem);
+  --text-h2:         clamp(2rem,   4.5vw, 3.75rem);
+  --text-h3:         clamp(1.375rem, 2.5vw, 2rem);
+  --text-body-lg:    1.25rem;
+  --text-body:       1.0625rem;
+  --text-body-sm:    0.9375rem;
+  --text-ui:         1rem;
+  --text-ui-sm:      0.875rem;
+  --text-mono:       0.8125rem;
+  --text-mono-sm:    0.6875rem;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  /* ── Spacing tokens (4px base unit) ── */
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-10:  2.5rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+  --space-20:  5rem;
+  --space-24:  6rem;
+  --space-32:  8rem;
+  --space-40:  10rem;
+  --space-48:  12rem;
 
-  --animate-gradient: gradient 8s linear infinite;
-  --animate-marquee: marquee 30s linear infinite;
-  --animate-ping: ping 1.2s cubic-bezier(0,0,0.2,1) infinite;
+  /* ── Duration tokens ── */
+  --dur-instant:   80ms;
+  --dur-fast:      150ms;
+  --dur-quick:     220ms;
+  --dur-normal:    380ms;
+  --dur-reveal:    600ms;
+  --dur-dramatic:  900ms;
+  --dur-cinematic: 1200ms;
+  --dur-ambient:   2400ms;
+  --dur-eternal:   6000ms;
 
-  @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+  /* ── Page grid ── */
+  --grid-default: 80rem;
+  --grid-wide:    90rem;
+  --grid-text:    42rem;
+  --grid-narrow:  32rem;
+  --page-px:      clamp(1.5rem, 5vw, 6rem);
 
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  @keyframes ping {
-    75%, 100% { transform: scale(2); opacity: 0; }
-  }
+  /* ── Button shape (design rule: 4px radius only) ── */
+  --radius-btn: 4px;
 }
 
-/* Utilities */
-@utility text-balance {
-  text-wrap: balance;
-}
-
-/* Glass effect — works in both light and dark */
-@utility glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark .glass {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Base styles */
-*, *::before, *::after {
+/* ── Base Styles ──────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
+  /* ⚠ INTENTIONALLY NO scroll-behavior: smooth — Lenis handles all scroll smoothing.
+     Adding it here creates a conflict: two scroll systems fighting each other. */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  color: var(--color-foreground);
-  background: var(--color-background);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+  background:     var(--background);
+  color:          var(--foreground);
+  font-family:    var(--font-sans);
+  font-size:      var(--text-body);
+  line-height:    1.65;
+  -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  overflow-x: hidden;
+  overflow-x:     hidden;
 }
 
+/* ── Typography Roles ─────────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
 }
 
-/* Selection */
+/* Default heading size resets — controlled by utility classes / fluid scale */
+h1 { font-size: var(--text-display);    font-weight: 800; line-height: 1.05; letter-spacing: -0.04em; }
+h2 { font-size: var(--text-h2);         font-weight: 700; line-height: 1.1;  letter-spacing: -0.03em; }
+h3 { font-size: var(--text-h3);         font-weight: 600; line-height: 1.2;  }
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* ── Skip Link (accessibility) ─────────────────────────────────────────────── */
+.skip-link {
+  position:  fixed;
+  top:       1rem;
+  left:      1rem;
+  z-index:   9999;
+  padding:   0.5rem 1rem;
+  background: var(--color-accent);
+  color:      var(--color-ghost);
+  font-family: var(--font-sans);
+  font-size:   0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-btn);
+  transform:  translateX(-200%);
+  transition: transform var(--dur-fast) ease;
+}
+.skip-link:focus {
+  transform: translateX(0);
+}
+
+/* ── Selection ────────────────────────────────────────────────────────────── */
 ::selection {
-  background: rgba(99, 102, 241, 0.3);
-  color: #fff;
+  background: var(--color-accent-glow);
+  color:      var(--color-ghost);
 }
 
-/* Stroke text */
-.stroke-text {
+/* ── Focus ring ───────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline:        2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* ── Surface utilities ────────────────────────────────────────────────────── */
+@utility glass {
+  background:          rgba(13, 13, 18, 0.8);
+  backdrop-filter:     blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border:              1px solid var(--color-border);
+}
+
+/* Grain texture — CSS-only, applied via .grain class */
+@utility grain {
+  position: relative;
+}
+/* Pseudo-element for grain — must be a separate class rule (not @utility) */
+.grain::after {
+  content:  "";
+  position: absolute;
+  inset:    0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size:  200px 200px;
+  opacity:    0.04;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Stroke text — for large project numbers */
+@utility text-stroke {
   -webkit-text-stroke: 1px currentColor;
   color: transparent;
 }
 
-/* Marquee animation */
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+/* ── Custom scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.3);
+  background:    var(--color-smoke);
   border-radius: 999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.6);
+  background: var(--color-ash);
 }
 
-/* Ping animation for availability dot */
-@keyframes ping {
-  75%, 100% {
-    transform: scale(2);
-    opacity: 0;
+/* ── Section structure ────────────────────────────────────────────────────── */
+.section-container {
+  width:      100%;
+  max-width:  var(--grid-default);
+  margin:     0 auto;
+  padding:    var(--space-24) var(--page-px);
+}
+
+.section-divider {
+  height:     1px;
+  background: var(--color-border);
+  max-width:  var(--grid-default);
+  margin:     0 auto;
+}
+
+/* ── Availability pulse dot ───────────────────────────────────────────────── */
+@keyframes signal-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.75; }
+  50%       { transform: scale(2);   opacity: 0; }
+}
+.signal-dot {
+  animation: signal-pulse 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ── Marquee ─────────────────────────────────────────────────────────────── */
+@keyframes marquee-left  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+.marquee-left  { animation: marquee-left  30s linear infinite; display: flex; }
+.marquee-right { animation: marquee-right 30s linear infinite; display: flex; }
+.marquee-left:hover,
+.marquee-right:hover { animation-play-state: paused; }
+
+/* ── Reduced motion overrides ─────────────────────────────────────────────── */
+/* These are CSS-layer fallbacks. JS animations are gated by usePrefersReducedMotion hook. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:         0.01ms !important;
+    animation-iteration-count:  1 !important;
+    transition-duration:        0.01ms !important;
+    scroll-behavior:            auto !important;
+  }
+
+  /* Disable Lenis-specific scroll overrides */
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  /* Parallax elements: remove all transform */
+  [data-parallax] {
+    transform: none !important;
+  }
+
+  /* Marquees: pause */
+  .marquee-left,
+  .marquee-right {
+    animation: none !important;
+  }
+
+  /* Custom cursor: hidden (JS also disables it, this is belt-and-suspenders) */
+  [data-cursor-container] {
+    display: none !important;
   }
 }
 
-.animate-ping {
-  animation: ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+/* ── motion-reduce class (set by AnimationProvider on <html>) ─────────────── */
+.motion-reduce * {
+  animation-duration:        0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration:       0.01ms !important;
 }
 
-/* Section divider gradient */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
-  margin: 0 auto;
-  max-width: 80rem;
+/* ── Cinematic Ambient Animations ─────────────────────────────────────────── */
+@keyframes ambient-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4vw, -4vh) scale(1.1); }
+  66% { transform: translate(-2vw, 3vh) scale(0.95); }
+}
+
+@keyframes ambient-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-3vw, 5vh) scale(1.05); }
+  66% { transform: translate(5vw, -2vh) scale(1.15); }
+}
+
+@keyframes ambient-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1.1); }
+  50% { transform: translate(-2vw, -6vh) scale(0.9); }
+}
+
+.animate-ambient-1 {
+  animation: ambient-drift-1 18s ease-in-out infinite alternate;
+}
+
+.animate-ambient-2 {
+  animation: ambient-drift-2 22s ease-in-out infinite alternate-reverse;
+}
+
+.animate-ambient-3 {
+  animation: ambient-drift-3 25s ease-in-out infinite alternate;
+}
+
+/* ── 3D Gyroscope & Globe Loader ────────────────────────────────────────────── */
+.preserve-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+@keyframes globe-spin {
+  0% { transform: rotateX(15deg) rotateY(0deg) rotateZ(10deg); }
+  100% { transform: rotateX(15deg) rotateY(360deg) rotateZ(10deg); }
+}
+
+.animate-globe { 
+  animation: globe-spin 5s linear infinite; 
+}
+
+/* ── Typography Utilities ─────────────────────────────────────────────────── */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.85);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.text-outline:hover {
+  color: rgba(255, 255, 255, 0.2);
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 1);
 }

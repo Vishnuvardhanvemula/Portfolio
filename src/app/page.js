@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Hero from "@/components/Hero";
-import Lenis from "lenis";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import About from "@/components/About";
@@ -10,9 +9,9 @@ import Contact from "@/components/Contact";
 import ProjectCard from "@/components/ProjectCard";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
-import Loader from "@/components/Loader";
+import Preloader from "@/components/Preloader";
 import ScrollProgress from "@/components/ScrollProgress";
-import CustomCursor from "@/components/CustomCursor";
+
 import { projects } from "@/data/projects";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { ArrowRight } from "lucide-react";
@@ -30,44 +29,20 @@ function SectionLabel({ number, label }) {
 export default function Home() {
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (loading) return;
-
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: "vertical",
-            gestureDirection: "vertical",
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
-        requestAnimationFrame(raf);
-
-        return () => {
-            lenis.destroy();
-        };
-    }, [loading]);
 
     return (
         <>
-            {/* Custom Cursor */}
-            <CustomCursor />
+            {/* Skip link — keyboard/screen-reader accessibility */}
+            <a href="#main-content" className="skip-link">Skip to content</a>
 
-            {/* Loader */}
-            {loading && <Loader onComplete={() => setLoading(false)} />}
+
+            {/* Preloader — sits above everything, exits via curtain sweep */}
+            {loading && <Preloader onComplete={() => setLoading(false)} />}
 
             {/* Main Content */}
             <main
+                id="main-content"
                 className="min-h-screen bg-background text-foreground overflow-hidden"
-                style={{ opacity: loading ? 0 : 1, transition: "opacity 0.3s ease" }}
             >
                 {/* Scroll progress bar */}
                 <ScrollProgress />

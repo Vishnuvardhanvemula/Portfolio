@@ -8,91 +8,68 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Navbar() {
     const { scrollY } = useScroll();
-    const [hidden, setHidden] = useState(false);
+    const [hidden, setHidden] = useState(true);
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
-        const previous = scrollY.getPrevious();
-        if (latest > previous && latest > 150) {
-            setHidden(true);
-        } else {
+        // Only show the navbar after scrolling past the Hero section (e.g. 500px)
+        if (latest > 500) {
             setHidden(false);
+        } else {
+            setHidden(true);
         }
-        setScrolled(latest > 50);
     });
 
     return (
         <motion.nav
             variants={{
-                visible: { y: 0 },
-                hidden: { y: "-100%" },
+                visible: { y: 0, opacity: 1 },
+                hidden: { y: "-100%", opacity: 0 },
             }}
+            initial="hidden"
             animate={hidden ? "hidden" : "visible"}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className={cn(
-                "fixed top-0 inset-x-0 z-50 w-full transition-all duration-300",
-                scrolled ? "glass" : "bg-transparent"
-            )}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // expo.out equivalent
+            className="fixed top-0 inset-x-0 z-[100] w-full mix-blend-difference pointer-events-none"
         >
-            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                <a href="/" className="flex items-center gap-2.5 group">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-bold text-sm font-heading shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-                        V
-                    </div>
-                    <span className="text-xl font-heading font-bold tracking-tight group-hover:opacity-80 transition-opacity">
-                        Vishnu<span className="text-primary">.</span>dev
-                    </span>
+            <div className="w-full px-6 py-6 flex items-start justify-between pointer-events-auto">
+                {/* Left: Minimal Logo/System ID */}
+                <a href="/" className="font-mono text-[10px] tracking-[0.3em] text-mist uppercase hover:text-white transition-colors">
+                    V.V // System
                 </a>
 
-                {/* Desktop Menu */}
-                <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-                    <a href="#about" className="hover:text-foreground transition-colors">About</a>
-                    <a href="#skills" className="hover:text-foreground transition-colors">Skills</a>
-                    <a href="#work" className="hover:text-foreground transition-colors">Work</a>
-                    <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
-                    <ThemeToggle />
-                    <a
-                        href="mailto:vishnuvardhan2431s@gmail.com"
-                        className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600/80 to-violet-600/80 border border-indigo-500/30 text-white hover:opacity-90 transition-all text-sm"
-                    >
-                        Let&apos;s Talk
-                    </a>
+                {/* Right: Structural Navigation */}
+                <div className="hidden md:flex flex-col items-end gap-2">
+                    <div className="flex gap-8 font-mono text-[10px] tracking-[0.3em] text-mist uppercase">
+                        <a href="#about" className="hover:text-white transition-colors">About</a>
+                        <a href="#work" className="hover:text-white transition-colors">Work</a>
+                        <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+                    </div>
                 </div>
 
                 {/* Mobile Menu Button */}
                 <button
-                    className="md:hidden p-2 text-foreground"
+                    className="md:hidden font-mono text-[10px] tracking-[0.3em] text-mist uppercase hover:text-white transition-colors"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    {isOpen ? <X /> : <Menu />}
+                    {isOpen ? "[ CLOSE ]" : "[ MENU ]"}
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay */}
+            {/* Minimal Mobile Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "100vh" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden fixed inset-0 top-20 bg-background z-40 border-t border-white/10"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="md:hidden absolute top-full left-0 w-full bg-void border-b border-white/5 pointer-events-auto"
                     >
-                        <div className="flex flex-col items-center justify-center h-full gap-8">
-                            <a href="#about" onClick={() => setIsOpen(false)} className="text-2xl font-medium text-muted-foreground hover:text-foreground">About</a>
-                            <a href="#skills" onClick={() => setIsOpen(false)} className="text-2xl font-medium text-muted-foreground hover:text-foreground">Skills</a>
-                            <a href="#work" onClick={() => setIsOpen(false)} className="text-2xl font-medium text-muted-foreground hover:text-foreground">Work</a>
-                            <a href="#contact" onClick={() => setIsOpen(false)} className="text-2xl font-medium text-muted-foreground hover:text-foreground">Contact</a>
-                            <div className="py-4">
-                                <ThemeToggle />
-                            </div>
-                            <a
-                                href="mailto:vishnuvardhan2431s@gmail.com"
-                                onClick={() => setIsOpen(false)}
-                                className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-medium"
-                            >
-                                Let's Talk
-                            </a>
+                        <div className="flex flex-col px-6 py-8 gap-6 font-mono text-[11px] tracking-[0.3em] text-ghost uppercase">
+                            <a href="#about" onClick={() => setIsOpen(false)} className="hover:text-white">About</a>
+                            <a href="#work" onClick={() => setIsOpen(false)} className="hover:text-white">Work</a>
+                            <a href="#contact" onClick={() => setIsOpen(false)} className="hover:text-white">Contact</a>
                         </div>
                     </motion.div>
                 )}
