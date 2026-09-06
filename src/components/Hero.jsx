@@ -1,29 +1,63 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const Crosshair = ({ className = "" }) => (
+  <svg 
+    className={cn(
+      "w-4 h-4 text-white/50 group-hover:text-white group-hover:rotate-90 transition-all duration-500 ease-out select-none pointer-events-none",
+      className
+    )} 
+    viewBox="0 0 16 16" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.2"
+  >
+    <path d="M8 0V16M0 8H16" />
+  </svg>
+);
 
 export default function Hero() {
   const containerRef = useRef(null);
   const pinRef = useRef(null);
+  const [istTime, setIstTime] = useState("");
   
   const prefersReduced = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = { 
+        timeZone: "Asia/Kolkata", 
+        hour: "2-digit", 
+        minute: "2-digit", 
+        second: "2-digit", 
+        hour12: false 
+      };
+      setIstTime(new Intl.DateTimeFormat("en-GB", options).format(now));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
-      // 1. Cinematic Scroll Choreography
+      // Cinematic Scroll Choreography
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: pinRef.current,
           start: "top top",
-          end: "+=150%", // Pin for 150% of viewport height
-          scrub: 1.2,    // Buttery smooth scrub
+          end: "+=150%",
+          scrub: 1.2,
           pin: true,
           anticipatePin: 1,
         }
@@ -31,7 +65,8 @@ export default function Hero() {
 
       const lockupFirst = ".lockup-first";
       const lockupLast = ".lockup-last";
-      const microTexts = gsap.utils.toArray(".micro-text");
+      const hudTop = ".hud-corner-top";
+      const hudBottom = ".hud-corner-bottom";
       const ambient1 = ".animate-ambient-1";
       const ambient2 = ".animate-ambient-2";
       const grain = ".hero-grain";
@@ -59,15 +94,23 @@ export default function Hero() {
         ease: "power2.inOut",
       }, 0)
       .to(lockupLast, {
-        yPercent: -30, // Moves slightly slower than the first name to create parallax
+        yPercent: -30,
         opacity: 0,
         filter: "blur(12px)",
         ease: "power2.inOut",
       }, 0)
-      .to(microTexts, {
+      .to(hudTop, {
         opacity: 0,
-        y: -20,
-        stagger: 0.02,
+        y: -30,
+        filter: "blur(6px)",
+        stagger: 0.04,
+        ease: "power2.in",
+      }, 0)
+      .to(hudBottom, {
+        opacity: 0,
+        y: 30,
+        filter: "blur(6px)",
+        stagger: 0.04,
         ease: "power2.in",
       }, 0);
 
@@ -76,17 +119,18 @@ export default function Hero() {
     return () => ctx.revert();
   }, [prefersReduced]);
 
+  const scrollToContent = () => {
+    const target = document.getElementById("about");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section ref={containerRef} className="relative w-full bg-void">
-      {/* Pinned Container - Exact match to Preloader DOM */}
+      {/* Pinned Viewport Container */}
       <div ref={pinRef} className="relative h-screen w-full overflow-hidden">
         
-        {/* Structural Crosshairs */}
-        <svg className="absolute top-8 left-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
-        <svg className="absolute top-8 right-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
-        <svg className="absolute bottom-8 left-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
-        <svg className="absolute bottom-8 right-8 w-3 h-3 text-white/40 z-10 pointer-events-none" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1"><path d="M6 0V12M0 6H12"/></svg>
-
         {/* Ambient Cinematic Background (Crimson & Ember) */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[10%] left-[10%] w-[50vw] h-[50vw] bg-red-600/20 rounded-full blur-[100px] mix-blend-screen animate-ambient-1" />
@@ -95,46 +139,67 @@ export default function Hero() {
           <div className="absolute inset-0 opacity-40 mix-blend-overlay hero-grain" />
         </div>
 
-        {/* Perimeter Micro-Grid */}
-        <div className="absolute inset-0 z-10 p-6 md:p-12 pointer-events-none flex flex-col justify-between">
-          {/* Top */}
-          <div className="flex justify-between items-start">
-            <div className="flex flex-col gap-1 overflow-hidden">
-              <span className="font-mono text-[9px] tracking-[0.4em] text-white uppercase block micro-text">
-                AI Engineer
-              </span>
-              <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase block micro-text">
-                Creative Developer
-              </span>
-            </div>
-            <div className="overflow-hidden">
-              <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase block micro-text">
-                [ ONLINE ]
-              </span>
-            </div>
-          </div>
+        {/* ═════════════════════════════════════════════════════════════════
+            PERIMETER HUD CORNER SPECIFICATIONS
+           ═════════════════════════════════════════════════════════════════ */}
 
-          {/* Bottom */}
-          <div className="flex justify-between items-end">
-            <div className="overflow-hidden">
-              <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase block micro-text">
-                Based in India
-              </span>
-            </div>
-            <div className="flex gap-6 overflow-hidden">
-              <span className="font-mono text-[9px] tracking-[0.4em] text-white uppercase block micro-text">Github</span>
-              <span className="font-mono text-[9px] tracking-[0.4em] text-white uppercase block micro-text">LinkedIn</span>
-            </div>
-            <div className="overflow-hidden">
-              <span className="font-mono text-[9px] tracking-[0.4em] text-accent uppercase block micro-text drop-shadow-[0_0_8px_rgba(230,0,0,0.8)]">
-                Scroll to Explore
-              </span>
-            </div>
+        {/* 1. TOP-LEFT: Crosshair + AI ENGINEER / CREATIVE DEVELOPER */}
+        <div className="hud-corner-top absolute top-7 left-7 md:top-12 md:left-12 z-20 flex flex-col items-start gap-3 group cursor-default select-none pointer-events-auto">
+          <Crosshair />
+          <div className="flex flex-col gap-1.5 ml-5 md:ml-6 transition-transform duration-300 ease-out group-hover:translate-x-1.5">
+            <span className="font-mono text-[11px] md:text-[13px] tracking-[0.32em] text-white font-medium drop-shadow-[0_0_12px_rgba(255,255,255,0.25)]">
+              AI ENGINEER
+            </span>
+            <span className="font-mono text-[11px] md:text-[13px] tracking-[0.32em] text-white/65 font-medium group-hover:text-white/90 transition-colors">
+              CREATIVE DEVELOPER
+            </span>
           </div>
         </div>
 
-        {/* Massive Typographic Lockup */}
-        <div className="relative z-20 flex-1 flex flex-col items-center justify-center pointer-events-none w-full h-full">
+        {/* 2. TOP-RIGHT: Crosshair + Quotation */}
+        <div className="hud-corner-top absolute top-7 right-7 md:top-12 md:right-12 z-20 flex flex-col items-end gap-3 group cursor-default select-none pointer-events-auto">
+          <Crosshair />
+          <div className="flex flex-col items-end mr-5 md:mr-6 transition-transform duration-300 ease-out group-hover:-translate-x-1.5 text-right">
+            <span className="font-mono text-[11px] md:text-[13px] tracking-[0.28em] text-white/90 font-medium uppercase drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:text-white transition-colors">
+              “FORM FOLLOWS INTELLIGENCE”
+            </span>
+            <span className="font-mono text-[10px] md:text-[11px] tracking-[0.24em] text-white/50 uppercase mt-0.5 group-hover:text-white/75 transition-colors">
+              WHERE CODE MEETS AESTHETICS
+            </span>
+          </div>
+        </div>
+
+        {/* 3. BOTTOM-LEFT: BASED IN INDIA + Crosshair */}
+        <div className="hud-corner-bottom absolute bottom-7 left-7 md:bottom-12 md:left-12 z-20 flex flex-col items-start gap-3 group cursor-default select-none pointer-events-auto">
+          <div className="flex flex-col ml-5 md:ml-6 transition-transform duration-300 ease-out group-hover:translate-x-1.5">
+            <span className="font-mono text-[11px] md:text-[13px] tracking-[0.32em] text-white/85 font-medium group-hover:text-white transition-colors">
+              BASED IN INDIA
+            </span>
+            {istTime && (
+              <span className="font-mono text-[9px] md:text-[10px] tracking-[0.24em] text-white/40 uppercase mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {istTime} IST • 17.3850° N, 78.4867° E
+              </span>
+            )}
+          </div>
+          <Crosshair />
+        </div>
+
+        {/* 4. BOTTOM-RIGHT: SCROLL TO EXPLORE + Crosshair */}
+        <div className="hud-corner-bottom absolute bottom-7 right-7 md:bottom-12 md:right-12 z-20 flex flex-col items-end gap-3 group select-none pointer-events-auto">
+          <button 
+            onClick={scrollToContent}
+            className="flex items-center mr-5 md:mr-6 transition-transform duration-300 ease-out group-hover:-translate-x-1.5 cursor-pointer focus:outline-none"
+            aria-label="Scroll to explore portfolio sections"
+          >
+            <span className="font-mono text-[11px] md:text-[13px] tracking-[0.32em] text-[#FF2222] font-semibold uppercase drop-shadow-[0_0_10px_rgba(255,34,34,0.75)] group-hover:drop-shadow-[0_0_18px_rgba(255,34,34,1)] group-hover:text-[#FF4444] transition-all">
+              SCROLL TO EXPLORE
+            </span>
+          </button>
+          <Crosshair className="group-hover:text-[#FF2222] group-hover:scale-110" />
+        </div>
+
+        {/* Center Typographic Lockup */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center pointer-events-none w-full h-full">
           <div className="flex flex-col items-center leading-[0.8] tracking-tighter">
             <div className="overflow-hidden pb-2">
               <h1 className="font-display font-bold text-[18vw] md:text-[14vw] text-ghost uppercase lockup-first tracking-[-0.04em]">
@@ -148,6 +213,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );
