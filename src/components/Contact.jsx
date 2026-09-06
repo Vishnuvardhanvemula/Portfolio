@@ -29,7 +29,7 @@ const socials = [
 function SectionLabel({ number, label }) {
     return (
         <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs text-primary/70 tracking-widest">// {number.toString().padStart(2, "0")}</span>
+            <span className="font-mono text-xs text-primary font-semibold tracking-widest">{number.toString().padStart(2, "0")} —</span>
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
         </div>
     );
@@ -72,7 +72,7 @@ export default function Contact() {
                         className="text-4xl md:text-5xl font-heading font-bold mb-6 leading-tight"
                     >
                         Let&apos;s build something{" "}
-                        <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-primary to-[#FF3333] bg-clip-text text-transparent">
                             intelligent.
                         </span>
                     </motion.h2>

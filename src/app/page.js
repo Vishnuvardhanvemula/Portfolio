@@ -3,24 +3,25 @@
 import { useState } from "react";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import About from "@/components/About";
+import Manifesto from "@/components/Manifesto";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 import ProjectCard from "@/components/ProjectCard";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Preloader from "@/components/Preloader";
-import ScrollProgress from "@/components/ScrollProgress";
 
 import { projects } from "@/data/projects";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
+import WorkIntro from "@/components/WorkIntro";
+
 function SectionLabel({ number, label }) {
     return (
         <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs text-primary/70 tracking-widest">// {number.toString().padStart(2, "0")}</span>
+            <span className="font-mono text-xs text-primary font-semibold tracking-widest">{number.toString().padStart(2, "0")} —</span>
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
         </div>
     );
@@ -29,12 +30,10 @@ function SectionLabel({ number, label }) {
 export default function Home() {
     const [loading, setLoading] = useState(true);
 
-
     return (
         <>
             {/* Skip link — keyboard/screen-reader accessibility */}
             <a href="#main-content" className="skip-link">Skip to content</a>
-
 
             {/* Preloader — sits above everything, exits via curtain sweep */}
             {loading && <Preloader onComplete={() => setLoading(false)} />}
@@ -44,9 +43,6 @@ export default function Home() {
                 id="main-content"
                 className="min-h-screen bg-background text-foreground overflow-hidden"
             >
-                {/* Scroll progress bar */}
-                <ScrollProgress />
-
                 <Navbar />
 
                 {/* Hero */}
@@ -55,43 +51,33 @@ export default function Home() {
                 {/* Sections */}
                 <div className="relative z-10 bg-background">
 
-                    {/* About */}
-                    <div className="section-divider" />
-                    <About />
+                    {/* 01: Manifesto / Introduction — continuous flow from Hero (WHO I AM) */}
+                    <Manifesto />
 
-                    {/* Skills */}
-                    <div className="section-divider" />
-                    <Skills />
+                    {/* 02: Selected Work Gateway Introduction (TRANSITION: WHO I AM ──► WHAT I CREATE) */}
+                    <WorkIntro />
 
-                    {/* Experience / Journey */}
-                    <div className="section-divider" />
-                    <Experience />
-
-                    {/* Selected Work */}
-                    <div className="section-divider" />
-                    <section id="work" className="w-full max-w-7xl mx-auto px-6 py-24">
-                        <SectionLabel number={4} label="Selected Work" />
-
-                        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    {/* Project Archive (INTRODUCING PROJECT 01) */}
+                    <section id="project-01" className="w-full max-w-7xl mx-auto px-6 py-20 relative z-10">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 pb-6 border-b border-white/5 gap-6">
                             <div>
-                                <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 leading-tight">
-                                    Selected{" "}
-                                    <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                                        Work
-                                    </span>
+                                <div className="flex items-center gap-3 mb-3">
+                                    <span className="font-mono text-xs text-[#FF2222] font-semibold tracking-widest">02 — ARCHIVE</span>
+                                    <span className="w-4 h-[1px] bg-white/20" />
+                                    <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">CATALOGUE OF SYSTEMS</span>
+                                </div>
+                                <h2 className="text-3xl md:text-4xl font-heading font-bold text-white tracking-tight">
+                                    Featured Deployments
                                 </h2>
-                                <p className="text-muted-foreground max-w-md text-base leading-relaxed">
-                                    A collection of systems designed to solve real-world problems through intelligence and automation.
-                                </p>
                             </div>
                             <MagneticButton>
                                 <a
                                     href="https://github.com/Vishnuvardhanvemula"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="hidden md:flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors px-5 py-2.5 rounded-full border border-white/10 hover:bg-white/5 text-muted-foreground"
+                                    className="flex items-center gap-2 text-xs font-mono tracking-wider hover:text-white transition-colors px-4 py-2 rounded border border-white/10 hover:border-white/20 hover:bg-white/5 text-muted-foreground uppercase"
                                 >
-                                    View All Repositories <ArrowRight className="w-4 h-4" />
+                                    GitHub Archive <ArrowRight className="w-3.5 h-3.5" />
                                 </a>
                             </MagneticButton>
                         </div>
@@ -106,6 +92,14 @@ export default function Home() {
                             )}
                         </div>
                     </section>
+
+                    {/* Skills */}
+                    <div className="section-divider" />
+                    <Skills />
+
+                    {/* Experience / Journey */}
+                    <div className="section-divider" />
+                    <Experience />
 
                     {/* Contact */}
                     <div className="section-divider" />

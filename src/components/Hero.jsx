@@ -51,13 +51,13 @@ export default function Hero() {
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
-      // Cinematic Scroll Choreography
+      // Cinematic Scroll Choreography with Zero-Dead-Space Blueprint Hand-off
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: pinRef.current,
           start: "top top",
-          end: "+=150%",
-          scrub: 1.2,
+          end: "+=95%",
+          scrub: 1.0,
           pin: true,
           anticipatePin: 1,
         }
@@ -70,49 +70,106 @@ export default function Hero() {
       const ambient1 = ".animate-ambient-1";
       const ambient2 = ".animate-ambient-2";
       const grain = ".hero-grain";
+      const blueprintGrid = ".blueprint-grid";
+      const blueprintBrackets = ".blueprint-bracket";
+      const blueprintTelemetry = ".blueprint-telemetry";
 
+      // ── PHASE 1 (0.0 - 0.4): AMBIENT LIGHTING & SUBTLE ZOOM ──────────────
       tl.to(ambient1, {
-        scale: 1.5,
-        opacity: 0.8,
-        yPercent: -20,
+        scale: 1.2,
+        opacity: 0.35,
+        yPercent: -10,
         ease: "none",
       }, 0)
       .to(ambient2, {
-        scale: 1.5,
-        opacity: 0.8,
-        yPercent: 20,
+        scale: 1.2,
+        opacity: 0.35,
+        yPercent: 10,
         ease: "none",
       }, 0)
       .to(grain, {
-        opacity: 0.7,
+        opacity: 0.4,
         ease: "none",
       }, 0)
+
+      // ── PHASE 2 (0.25 - 0.7): BLUEPRINT MATRIX & WIREFRAME DECONSTRUCTION
+      // Grid rails illuminate and stay active right into the hand-off
+      .to(blueprintGrid, {
+        opacity: 0.35,
+        duration: 0.3,
+        ease: "power2.out",
+      }, 0.2)
+      // Corner brackets snap to lockup bounds
+      .to(blueprintBrackets, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.25,
+        stagger: 0.03,
+        ease: "back.out(1.7)",
+      }, 0.25)
+      // Telemetry readout illuminates
+      .to(blueprintTelemetry, {
+        opacity: 0.85,
+        duration: 0.25,
+      }, 0.3)
+      // VISHNU & Vardhan. solid fills deconstruct into luminous wireframe stroke
       .to(lockupFirst, {
-        yPercent: -50,
-        opacity: 0,
-        filter: "blur(12px)",
+        color: "transparent",
+        webkitTextStroke: "1.2px rgba(255,255,255,0.8)",
+        textShadow: "0 0 25px rgba(255,255,255,0.4)",
+        duration: 0.4,
         ease: "power2.inOut",
-      }, 0)
+      }, 0.3)
       .to(lockupLast, {
-        yPercent: -30,
-        opacity: 0,
-        filter: "blur(12px)",
+        color: "transparent",
+        webkitTextStroke: "1.2px rgba(255,255,255,0.8)",
+        textShadow: "0 0 25px rgba(230,0,0,0.5)",
+        duration: 0.4,
         ease: "power2.inOut",
-      }, 0)
+      }, 0.3)
+
+      // ── PHASE 3 (0.6 - 1.0): SEAMLESS DOCKING DOWNWARD ALONG VERTICAL RAILS
+      // Brackets guide typography downward
+      .to(blueprintBrackets, {
+        x: (i) => (i % 2 === 0 ? 30 : -30),
+        duration: 0.4,
+        ease: "power2.inOut",
+      }, 0.55)
+      // Wireframe typography and bounding box glide down the rails into Manifesto
+      .to([lockupFirst, lockupLast, ".blueprint-box"], {
+        yPercent: 30,
+        opacity: 0,
+        filter: "blur(4px)",
+        duration: 0.45,
+        ease: "power2.in",
+      }, 0.55)
+      // Perimeter HUD corners track along rails and dissolve
       .to(hudTop, {
+        y: 40,
         opacity: 0,
-        y: -30,
-        filter: "blur(6px)",
-        stagger: 0.04,
+        duration: 0.4,
+        stagger: 0.03,
         ease: "power2.in",
-      }, 0)
+      }, 0.6)
       .to(hudBottom, {
+        y: -30,
         opacity: 0,
-        y: 30,
-        filter: "blur(6px)",
-        stagger: 0.04,
+        duration: 0.4,
+        stagger: 0.03,
         ease: "power2.in",
-      }, 0);
+      }, 0.6)
+      // Ambient lighting smoothly eases into Manifesto's ambient warmth
+      .to([ambient1, ambient2], {
+        opacity: 0.12,
+        duration: 0.4,
+        ease: "power2.inOut",
+      }, 0.6)
+      // Telemetry completes state and glides downward
+      .to(blueprintTelemetry, {
+        y: 25,
+        opacity: 0,
+        duration: 0.35,
+      }, 0.65);
 
     }, containerRef);
 
@@ -135,8 +192,10 @@ export default function Hero() {
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[10%] left-[10%] w-[50vw] h-[50vw] bg-red-600/20 rounded-full blur-[100px] mix-blend-screen animate-ambient-1" />
           <div className="absolute bottom-[10%] right-[10%] w-[60vw] h-[60vw] bg-orange-600/20 rounded-full blur-[120px] mix-blend-screen animate-ambient-2" />
-          <div className="absolute top-[40%] left-[40%] w-[40vw] h-[40vw] bg-purple-900/30 rounded-full blur-[90px] mix-blend-screen animate-ambient-3" />
+          <div className="absolute top-[40%] left-[40%] w-[40vw] h-[40vw] bg-red-950/30 rounded-full blur-[110px] mix-blend-screen animate-ambient-3" />
           <div className="absolute inset-0 opacity-40 mix-blend-overlay hero-grain" />
+          {/* Seamless Bottom Feather Mask */}
+          <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-b from-transparent to-void pointer-events-none" />
         </div>
 
         {/* ═════════════════════════════════════════════════════════════════
@@ -198,9 +257,41 @@ export default function Hero() {
           <Crosshair className="group-hover:text-[#FF2222] group-hover:scale-110" />
         </div>
 
+        {/* ═════════════════════════════════════════════════════════════════
+            BLUEPRINT MATRIX GRID RAILS (TRANSITION TO MANIFESTO)
+           ═════════════════════════════════════════════════════════════════ */}
+        <div className="blueprint-grid absolute inset-0 pointer-events-none z-10 opacity-0">
+          {/* Horizontal Rails */}
+          <div className="absolute top-20 left-0 right-0 h-[1px] bg-white/10" />
+          <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white/10" />
+          <div className="absolute bottom-20 left-0 right-0 h-[1px] bg-white/10" />
+
+          {/* Vertical Rails */}
+          <div className="absolute top-0 bottom-0 left-7 md:left-12 w-[1px] bg-white/10" />
+          <div className="absolute top-0 bottom-0 right-7 md:right-12 w-[1px] bg-white/10" />
+          <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-white/5" />
+
+          {/* Grid Crosshairs at Intersections */}
+          <div className="absolute top-20 left-7 md:left-12 -translate-x-1/2 -translate-y-1/2 font-mono text-[11px] text-[#FF2222]/80">┼</div>
+          <div className="absolute top-20 right-7 md:right-12 translate-x-1/2 -translate-y-1/2 font-mono text-[11px] text-[#FF2222]/80">┼</div>
+          <div className="absolute bottom-20 left-7 md:left-12 -translate-x-1/2 translate-y-1/2 font-mono text-[11px] text-[#FF2222]/80">┼</div>
+          <div className="absolute bottom-20 right-7 md:right-12 translate-x-1/2 translate-y-1/2 font-mono text-[11px] text-[#FF2222]/80">┼</div>
+
+          {/* Blueprint Telemetry Readout */}
+          <div className="blueprint-telemetry absolute bottom-28 left-1/2 -translate-x-1/2 font-mono text-[9px] md:text-[10px] tracking-[0.35em] text-white/50 uppercase opacity-0 text-center whitespace-nowrap">
+            [ DECONSTRUCTING IDENTITY · COMPILING SYSTEM LOGIC ]
+          </div>
+        </div>
+
         {/* Center Typographic Lockup */}
         <div className="relative z-10 flex-1 flex flex-col items-center justify-center pointer-events-none w-full h-full">
-          <div className="flex flex-col items-center leading-[0.8] tracking-tighter">
+          <div className="blueprint-box relative flex flex-col items-center leading-[0.8] tracking-tighter p-6 md:p-12">
+            {/* Wireframe Bounding Brackets */}
+            <span className="blueprint-bracket absolute top-0 left-0 font-mono text-xl text-[#FF2222] opacity-0 select-none">┌</span>
+            <span className="blueprint-bracket absolute top-0 right-0 font-mono text-xl text-[#FF2222] opacity-0 select-none">┐</span>
+            <span className="blueprint-bracket absolute bottom-0 left-0 font-mono text-xl text-[#FF2222] opacity-0 select-none">└</span>
+            <span className="blueprint-bracket absolute bottom-0 right-0 font-mono text-xl text-[#FF2222] opacity-0 select-none">┘</span>
+
             <div className="overflow-hidden pb-2">
               <h1 className="font-display font-bold text-[18vw] md:text-[14vw] text-ghost uppercase lockup-first tracking-[-0.04em]">
                 VISHNU

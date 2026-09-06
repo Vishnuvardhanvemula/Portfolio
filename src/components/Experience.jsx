@@ -46,12 +46,12 @@ const experiences = [
         period: "2024",
         description: "Implemented a production-grade RAG pipeline with vector embeddings, cross-encoder reranking, and multi-turn conversation support.",
         tags: ["LangChain", "OpenAI", "Python"],
-        accent: "from-violet-500 to-purple-500",
+        accent: "from-red-500 to-rose-600",
     },
 ];
 
 const typeColors = {
-    education: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+    education: "bg-red-500/10 text-red-400 border-red-500/20",
     project: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
     learning: "bg-green-500/10 text-green-400 border-green-500/20",
 };
@@ -65,7 +65,7 @@ const typeLabels = {
 function SectionLabel({ number, label }) {
     return (
         <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs text-primary/70 tracking-widest">// {number.toString().padStart(2, "0")}</span>
+            <span className="font-mono text-xs text-primary font-semibold tracking-widest">{number.toString().padStart(2, "0")} —</span>
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
         </div>
     );
@@ -74,7 +74,7 @@ function SectionLabel({ number, label }) {
 export default function Experience() {
     return (
         <section id="experience" className="w-full max-w-7xl mx-auto px-6 py-24 z-10 relative">
-            <SectionLabel number={3} label="Journey" />
+            <SectionLabel number={4} label="Journey" />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                 {/* Left: Heading */}
@@ -86,7 +86,7 @@ export default function Experience() {
                 >
                     <h2 className="text-4xl md:text-5xl font-heading font-bold leading-tight mb-6">
                         The{" "}
-                        <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-primary to-[#FF3333] bg-clip-text text-transparent">
                             Journey
                         </span>{" "}
                         So Far

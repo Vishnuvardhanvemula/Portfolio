@@ -17,10 +17,10 @@ const features = [
         icon: <Brain className="w-5 h-5" />,
         title: "AI & Machine Learning",
         description: "Integrating LLMs, RAG systems, and predictive models into user-facing products.",
-        color: "from-violet-500/20 to-purple-500/20",
-        border: "border-violet-500/20",
-        iconBg: "bg-violet-500/10 text-violet-400",
-        iconHoverBg: "group-hover:bg-violet-500 group-hover:text-white",
+        color: "from-red-500/20 to-rose-500/20",
+        border: "border-red-500/20",
+        iconBg: "bg-red-500/10 text-red-400",
+        iconHoverBg: "group-hover:bg-red-500 group-hover:text-white",
     },
     {
         icon: <Zap className="w-5 h-5" />,
@@ -51,7 +51,7 @@ const socials = [
 function SectionLabel({ number, label }) {
     return (
         <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs text-primary/70 tracking-widest">// {number.toString().padStart(2, "0")}</span>
+            <span className="font-mono text-xs text-primary font-semibold tracking-widest">{number.toString().padStart(2, "0")} —</span>
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
         </div>
     );
@@ -74,7 +74,7 @@ export default function About() {
                     >
                         <h2 className="text-4xl md:text-5xl font-heading font-bold mb-8 leading-tight">
                             More than just{" "}
-                            <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-primary to-[#FF3333] bg-clip-text text-transparent">
                                 writing code.
                             </span>
                         </h2>

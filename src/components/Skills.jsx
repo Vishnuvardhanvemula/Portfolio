@@ -20,8 +20,8 @@ const skillCategories = [
     },
     {
         label: "AI / ML",
-        color: "from-violet-500/20 to-purple-500/20",
-        border: "border-violet-500/20",
+        color: "from-red-500/20 to-rose-500/20",
+        border: "border-red-500/20",
         icon: "🧠",
         skills: ["Python", "TensorFlow", "LangChain", "OpenAI API", "Vector DB", "RAG Systems"]
     },
@@ -45,7 +45,7 @@ const tools = [
 function SectionLabel({ number, label }) {
     return (
         <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs text-primary/70 tracking-widest">// {number.toString().padStart(2, "0")}</span>
+            <span className="font-mono text-xs text-primary font-semibold tracking-widest">{number.toString().padStart(2, "0")} —</span>
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
         </div>
     );
@@ -54,7 +54,7 @@ function SectionLabel({ number, label }) {
 export default function Skills() {
     return (
         <section id="skills" className="w-full max-w-7xl mx-auto px-6 py-24 z-10 relative">
-            <SectionLabel number={2} label="Skills & Tools" />
+            <SectionLabel number={3} label="Skills & Tools" />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                 {/* Left: Heading */}
@@ -66,7 +66,7 @@ export default function Skills() {
                 >
                     <h2 className="text-4xl md:text-5xl font-heading font-bold leading-tight mb-6">
                         My Tech{" "}
-                        <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-primary to-[#FF3333] bg-clip-text text-transparent">
                             Arsenal
                         </span>
                     </h2>
@@ -99,7 +99,7 @@ export default function Skills() {
                                         whileInView={{ width: `${item.pct}%` }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 1, delay: 0.3 + i * 0.1, ease: "easeOut" }}
-                                        className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
+                                        className="h-full rounded-full bg-gradient-to-r from-primary to-[#FF4444]"
                                     />
                                 </div>
                             </motion.div>

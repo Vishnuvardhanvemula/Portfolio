@@ -89,7 +89,7 @@ export default function Loader({ onComplete }) {
                         {/* Progress bar */}
                         <div className="w-48 h-[1px] bg-white/10 rounded-full overflow-hidden">
                             <motion.div
-                                className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
+                                className="h-full bg-gradient-to-r from-primary to-[#FF3333] rounded-full"
                                 style={{ width: `${progress}%` }}
                                 transition={{ duration: 0.05 }}
                             />

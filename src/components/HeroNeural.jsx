@@ -34,7 +34,7 @@ export default function Hero() {
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-foreground mb-4">
                     <div className="flex flex-col md:block">
                         <span>ARCHITECTING</span>{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-cyan-500">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-500 to-[#FF2222]">
                             <GlitchText text="INTELLIGENCE" />
                         </span>
                     </div>

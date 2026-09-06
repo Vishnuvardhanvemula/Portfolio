@@ -1,5 +1,41 @@
 export const projects = [
     {
+        id: "casabliss",
+        title: "Casa Bliss",
+        subtitle: "Luxury Interior Concierge",
+        year: "2024",
+        description: "A bespoke, editorial web application built for an international luxury furniture and interior sourcing concierge. The platform blends architectural minimalism with interactive storytelling, bypassing traditional retail markups.",
+        tags: ["Next.js 16", "React 19", "Tailwind v4", "TypeScript", "Framer Motion"],
+        link: "https://casabliss.vercel.app/",
+        github: "",
+        image: "/projects/casabliss-preview.jpg",
+        color: "from-stone-400 to-neutral-700",
+        features: [
+            {
+                title: "60 FPS Animation",
+                description: "Custom animation pipeline with dynamic horizontal scroll showcases and editorial parallax effects.",
+                icon: "MonitorPlay"
+            },
+            {
+                title: "Multi-Chapter Journey",
+                description: "An interactive, narrative-driven sourcing journey to engage high-end interior designers and architects.",
+                icon: "BookOpen"
+            },
+            {
+                title: "Concierge Flow",
+                description: "Intelligent multi-currency concierge inquiry flow for international clientele.",
+                icon: "Globe"
+            },
+            {
+                title: "Editorial Design",
+                description: "Blends architectural minimalism with interactive storytelling for a premium feel.",
+                icon: "Layout"
+            }
+        ],
+        challenges: "Ensuring a consistently smooth 60 FPS experience across devices while maintaining high-fidelity architectural imagery and complex scroll-linked animations.",
+        solution: "Leveraged Next.js App Router for optimized asset delivery, combined with Lenis for smooth scrolling and Framer Motion for highly optimized, hardware-accelerated animations."
+    },
+    {
         id: "finyatra",
         title: "FinYatra",
         subtitle: "Gamified Financial Literacy Platform",
@@ -45,7 +81,7 @@ export const projects = [
         link: "#",
         github: "https://github.com/Vishnuvardhanvemula",
         image: "/projects/rag-preview.jpg",
-        color: "from-violet-500 to-purple-700",
+        color: "from-red-500 to-rose-700",
         features: [
             {
                 title: "Ingest",

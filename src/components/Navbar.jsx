@@ -32,11 +32,8 @@ export default function Navbar() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // expo.out equivalent
             className="fixed top-0 inset-x-0 z-[100] w-full mix-blend-difference pointer-events-none"
         >
-            <div className="w-full px-6 py-6 flex items-start justify-between pointer-events-auto">
-                {/* Left: Minimal Logo/System ID */}
-                <a href="/" className="font-mono text-[10px] tracking-[0.3em] text-mist uppercase hover:text-white transition-colors">
-                    V.V // System
-                </a>
+            <div className="w-full px-6 py-6 flex items-start justify-end pointer-events-auto">
+                {/* Structural Navigation */}
 
                 {/* Right: Structural Navigation */}
                 <div className="hidden md:flex flex-col items-end gap-2">

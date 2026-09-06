@@ -100,14 +100,14 @@ export default function ProjectPage() {
 
                         {/* Overview */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                            <h2 className="text-xs font-mono text-primary/70 tracking-widest uppercase mb-4">// Overview</h2>
+                            <h2 className="text-xs font-mono text-primary font-semibold tracking-widest uppercase mb-4">01 — Overview</h2>
                             <p className="text-lg text-muted-foreground leading-relaxed">{project.description}</p>
                         </motion.div>
 
                         {/* Features */}
                         {project.features && project.features.length > 0 && (
                             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-                                <h2 className="text-xs font-mono text-primary/70 tracking-widest uppercase mb-6">// Key Features</h2>
+                                <h2 className="text-xs font-mono text-primary font-semibold tracking-widest uppercase mb-6">02 — Key Features</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {project.features.map((feature) => (
                                         <div
@@ -132,11 +132,11 @@ export default function ProjectPage() {
                                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
                             >
                                 <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/15">
-                                    <h2 className="text-xs font-mono text-red-400/70 tracking-widest uppercase mb-4">// The Challenge</h2>
+                                    <h2 className="text-xs font-mono text-red-400 font-semibold tracking-widest uppercase mb-4">03 — The Challenge</h2>
                                     <p className="text-muted-foreground leading-relaxed text-sm">{project.challenges}</p>
                                 </div>
                                 <div className="p-6 rounded-2xl bg-green-500/5 border border-green-500/15">
-                                    <h2 className="text-xs font-mono text-green-400/70 tracking-widest uppercase mb-4">// The Solution</h2>
+                                    <h2 className="text-xs font-mono text-green-400 font-semibold tracking-widest uppercase mb-4">04 — The Solution</h2>
                                     <p className="text-muted-foreground leading-relaxed text-sm">{project.solution}</p>
                                 </div>
                             </motion.div>
