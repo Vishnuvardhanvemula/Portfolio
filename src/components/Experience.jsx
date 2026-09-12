@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const experiences = [
     {
@@ -10,7 +11,7 @@ const experiences = [
         period: "2022 – 2026",
         description: "Specializing in AI & Machine Learning. Core courses: Data Structures, Algorithms, ML, DBMS, OS, Computer Networks.",
         tags: ["CS", "AI/ML", "B.Tech"],
-        accent: "from-indigo-500 to-violet-500",
+        id: "LOG.01"
     },
     {
         type: "project",
@@ -19,7 +20,7 @@ const experiences = [
         period: "2025",
         description: "Built a full-stack interview prep platform with AI-powered explanations, 500+ DSA questions, and real-time leaderboards.",
         tags: ["Next.js", "OpenAI", "PostgreSQL"],
-        accent: "from-cyan-500 to-blue-500",
+        id: "LOG.02"
     },
     {
         type: "project",
@@ -28,7 +29,7 @@ const experiences = [
         period: "2023",
         description: "Built an offline-capable mobile app for crop disease detection using TensorFlow and model quantization. Won recognition at college tech fest.",
         tags: ["TensorFlow", "React Native", "IoT"],
-        accent: "from-yellow-500 to-orange-500",
+        id: "LOG.03"
     },
     {
         type: "project",
@@ -37,7 +38,7 @@ const experiences = [
         period: "2024",
         description: "Designed and built a MERN stack app that gamifies financial literacy with XP systems, streaks, and reward mechanics.",
         tags: ["React", "Node.js", "MongoDB"],
-        accent: "from-green-500 to-emerald-500",
+        id: "LOG.04"
     },
     {
         type: "learning",
@@ -46,91 +47,93 @@ const experiences = [
         period: "2024",
         description: "Implemented a production-grade RAG pipeline with vector embeddings, cross-encoder reranking, and multi-turn conversation support.",
         tags: ["LangChain", "OpenAI", "Python"],
-        accent: "from-red-500 to-rose-600",
+        id: "LOG.05"
     },
 ];
 
-const typeColors = {
-    education: "bg-red-500/10 text-red-400 border-red-500/20",
-    project: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-    learning: "bg-green-500/10 text-green-400 border-green-500/20",
-};
-
 const typeLabels = {
-    education: "Education",
-    project: "Project",
-    learning: "Research",
+    education: "ACADEMIC",
+    project: "DEPLOYMENT",
+    learning: "RESEARCH",
 };
 
-function SectionLabel({ number, label }) {
-    return (
-        <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-xs text-primary font-semibold tracking-widest">{number.toString().padStart(2, "0")} —</span>
-            <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
-        </div>
-    );
-}
+const Crosshair = ({ className = "" }) => (
+  <svg 
+    className={cn(
+      "w-3.5 h-3.5 text-[#FF2222] select-none pointer-events-none",
+      className
+    )} 
+    viewBox="0 0 16 16" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.2"
+  >
+    <path d="M8 0V16M0 8H16" />
+  </svg>
+);
 
 export default function Experience() {
     return (
-        <section id="experience" className="w-full max-w-7xl mx-auto px-6 py-24 z-10 relative">
-            <SectionLabel number={4} label="Journey" />
+        <section id="experience" className="w-full max-w-7xl mx-auto px-6 py-24 z-10 relative border-t border-white/5">
+            <div className="flex items-center gap-4 text-[10px] font-mono tracking-widest text-[#FF2222] mb-12">
+                <Crosshair />
+                <span>04 — DEPLOYMENT TIMELINE & SYSTEM LOGS</span>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                {/* Left: Heading */}
+                {/* Left: Heading & Stats */}
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
+                    className="sticky top-24"
                 >
-                    <h2 className="text-4xl md:text-5xl font-heading font-bold leading-tight mb-6">
-                        The{" "}
-                        <span className="bg-gradient-to-r from-primary to-[#FF3333] bg-clip-text text-transparent">
-                            Journey
-                        </span>{" "}
-                        So Far
+                    <h2 className="text-4xl md:text-5xl font-heading font-bold leading-tight tracking-tight uppercase mb-6 text-ghost">
+                        The Journey <br/>So Far
                     </h2>
-                    <p className="text-lg text-muted-foreground leading-relaxed max-w-md">
+                    <p className="font-mono text-[10px] md:text-xs text-white/50 tracking-[0.2em] uppercase mb-8 leading-relaxed max-w-md">
                         Every project is a lesson. Every failure is a data point. Here's how I've been building my craft — one system at a time.
                     </p>
 
-                    {/* Stats */}
-                    <div className="mt-12 grid grid-cols-3 gap-6">
+                    {/* Stats Grid */}
+                    <div className="mt-12 grid grid-cols-3 gap-[1px] bg-white/10 border border-white/10">
                         {[
                             { value: "3+", label: "Years Coding" },
                             { value: "10+", label: "Projects Built" },
                             { value: "3", label: "Domains" },
                         ].map((stat) => (
-                            <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
-                                <div className="text-3xl font-bold font-heading text-white mb-1">{stat.value}</div>
-                                <div className="text-xs text-muted-foreground">{stat.label}</div>
+                            <div key={stat.label} className="text-center p-4 bg-background">
+                                <div className="text-2xl font-bold font-mono text-white mb-2">{stat.value}</div>
+                                <div className="font-mono text-[9px] text-[#FF2222] uppercase tracking-widest">{stat.label}</div>
                             </div>
                         ))}
                     </div>
 
                     {/* Availability badge */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.4 }}
-                        className="mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-green-500/10 border border-green-500/20"
+                        className="mt-8 inline-flex items-center gap-3 px-5 py-3 border border-[#FF2222]/30 bg-[#FF2222]/5"
                     >
                         <span className="relative flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                            <span className="animate-ping absolute inline-flex h-full w-full bg-[#FF2222] opacity-75" />
+                            <span className="relative inline-flex h-2.5 w-2.5 bg-[#FF2222]" />
                         </span>
-                        <span className="text-sm font-medium text-green-400">Open to full-time roles & collaborations</span>
+                        <span className="font-mono text-[10px] tracking-widest text-white/80 uppercase">
+                            Open to full-time roles & collaborations
+                        </span>
                     </motion.div>
                 </motion.div>
 
-                {/* Right: Timeline */}
+                {/* Right: Timeline Log */}
                 <div className="relative">
-                    {/* Vertical line */}
-                    <div className="absolute left-4 top-0 bottom-0 w-[1px] bg-gradient-to-b from-primary/50 via-primary/20 to-transparent" />
+                    {/* Vertical Laser line */}
+                    <div className="absolute left-[15px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-[#FF2222] via-[#FF2222]/50 to-transparent" />
 
-                    <div className="space-y-8">
+                    <div className="space-y-12 pb-12">
                         {experiences.map((exp, i) => (
                             <motion.div
                                 key={i}
@@ -138,31 +141,38 @@ export default function Experience() {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                                className="relative pl-12"
+                                className="relative pl-12 group"
                             >
-                                {/* Dot */}
-                                <div className={`absolute left-0 top-1.5 w-8 h-8 rounded-full bg-gradient-to-br ${exp.accent} flex items-center justify-center shadow-lg`}>
-                                    <div className="w-2.5 h-2.5 rounded-full bg-white/80" />
+                                {/* Crosshair Datum */}
+                                <div className="absolute left-0 top-1 flex items-center justify-center w-8 h-8 bg-background group-hover:bg-[#FF2222]/10 transition-colors z-10">
+                                    <Crosshair className="w-4 h-4 text-[#FF2222]" />
                                 </div>
 
-                                {/* Card */}
-                                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.07] hover:border-white/20 transition-all duration-300 group">
-                                    <div className="flex flex-wrap items-center gap-2 mb-3">
-                                        <span className={`text-xs px-2.5 py-0.5 rounded-full border font-medium ${typeColors[exp.type]}`}>
-                                            {typeLabels[exp.type]}
-                                        </span>
-                                        <span className="text-xs text-muted-foreground font-mono">{exp.period}</span>
+                                {/* Log Card */}
+                                <div className="p-6 border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300">
+                                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                                        <div className="flex items-center gap-3">
+                                            <span className="font-mono text-[9px] px-2 py-1 bg-[#FF2222]/10 text-[#FF2222] border border-[#FF2222]/20 uppercase tracking-widest">
+                                                {typeLabels[exp.type]}
+                                            </span>
+                                            <span className="font-mono text-[10px] text-white/40 tracking-[0.2em]">{exp.id}</span>
+                                        </div>
+                                        <span className="font-mono text-[10px] text-white/60 tracking-widest">{exp.period}</span>
                                     </div>
 
-                                    <h3 className="font-bold text-white text-base mb-0.5 group-hover:text-primary transition-colors">
+                                    <h3 className="font-display font-bold text-white text-xl tracking-wide uppercase mb-1">
                                         {exp.title}
                                     </h3>
-                                    <p className="text-xs text-muted-foreground mb-3">{exp.org}</p>
-                                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">{exp.description}</p>
+                                    <p className="font-mono text-[10px] text-[#FF2222] tracking-widest uppercase mb-4">
+                                        // {exp.org}
+                                    </p>
+                                    <p className="font-sans text-sm text-white/70 font-light leading-relaxed mb-6">
+                                        {exp.description}
+                                    </p>
 
-                                    <div className="flex flex-wrap gap-1.5">
+                                    <div className="flex flex-wrap gap-2">
                                         {exp.tags.map((tag) => (
-                                            <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/60 font-mono">
+                                            <span key={tag} className="font-mono text-[9px] px-2 py-1 border border-white/10 text-white/50 uppercase tracking-widest">
                                                 {tag}
                                             </span>
                                         ))}

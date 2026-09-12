@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { projects } from "@/data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,7 +51,6 @@ export default function WorkIntro() {
       const workWord = ".work-intro-work";
       const laserBeam = ".work-intro-laser";
       const pivotArea = ".work-intro-pivot";
-      const gatewayArea = ".work-intro-gateway";
       const numeralBg = ".work-intro-numeral";
       const ambientAura = ".work-intro-ambient";
       const hudPerimeter = ".work-intro-hud";
@@ -59,14 +59,11 @@ export default function WorkIntro() {
 
       // Initial defaults
       gsap.set(pivotArea, { y: 20, opacity: 0 });
-      gsap.set(gatewayArea, { scale: 0.85, opacity: 0 });
-      gsap.set(numeralBg, { scale: 0.65, opacity: 0 });
+      gsap.set(numeralBg, { scale: 0.4, opacity: 0 });
       gsap.set(ambientAura, { opacity: 0.2, scale: 0.95 });
       gsap.set(gridRails, { opacity: 0.35 });
 
       // ── 1. ENTRANCE TIMELINE: AS WORKINTRO SCROLLS INTO VIEW FROM MANIFESTO ──
-      // Eliminates the empty black void during the unpin handoff.
-      // 'SELECTED' & 'WORK' emerge from their masks as the section enters the screen.
       const entranceTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -102,8 +99,7 @@ export default function WorkIntro() {
           0.15
         );
 
-      // ── 2. PINNED TIMELINE: CONCEPTUAL PIVOT & GATEWAY APERTURE ─────────
-      // When WorkIntro reaches top top, it pins and executes the transformation
+      // ── 2. PINNED TIMELINE: CONCEPTUAL PIVOT & WARP TRANSITION ─────────
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: pinEl,
@@ -129,56 +125,55 @@ export default function WorkIntro() {
         ease: "power2.out",
       }, 0.05)
 
-      // STAGE 2: GATEWAY TRANSFORMATION & APERTURE EXPANSION (0.35 – 0.75)
-      // Massive words part vertically and recede into architectural frames
+      // STAGE 2: TYPOGRAPHY DEPARTS & SYS.00 EMERGES (0.35 – 0.75)
       .to(selectedWord, {
-        yPercent: isDesktop ? -45 : -35,
-        scale: isDesktop ? 0.82 : 0.88,
-        opacity: 0.25,
+        yPercent: isDesktop ? -55 : -45,
+        scale: isDesktop ? 0.8 : 0.85,
+        opacity: 0,
         duration: 0.35,
         ease: "power2.inOut",
       }, 0.35)
       .to(workWord, {
-        yPercent: isDesktop ? 45 : 35,
-        scale: isDesktop ? 0.82 : 0.88,
-        opacity: 0.25,
+        yPercent: isDesktop ? 55 : 45,
+        scale: isDesktop ? 0.8 : 0.85,
+        opacity: 0,
         duration: 0.35,
         ease: "power2.inOut",
       }, 0.35)
       .to(pivotArea, {
         opacity: 0,
-        y: -12,
-        duration: 0.15,
+        scale: 0.9,
+        duration: 0.2,
         ease: "power2.in",
       }, 0.35)
       .to(laserBeam, {
-        opacity: 0.2,
+        opacity: 0,
+        scaleX: 0,
         duration: 0.2,
       }, 0.35)
-      // Aperture Viewfinder opens in center depth
-      .to(gatewayArea, {
-        scale: 1,
-        opacity: 1,
-        duration: 0.35,
-        ease: "power3.out",
-      }, 0.38)
-      // Monumental numeral '01' emerges
       .to(numeralBg, {
         scale: 1,
-        opacity: 0.26,
-        duration: 0.35,
+        opacity: 0.15,
+        duration: 0.4,
         ease: "power2.out",
-      }, 0.38)
+      }, 0.35)
 
-      // STAGE 3: RESOLUTION & PROJECT 01 HANDOFF (0.75 – 1.00)
-      .to(gatewayArea, {
-        scale: isDesktop ? 1.02 : 1.0,
-        opacity: 1,
-        duration: 0.2,
-      }, 0.75)
+      // STAGE 3: WARP RESOLUTION (0.75 – 1.00)
+      // Fly through the numeral towards the next section
       .to(numeralBg, {
-        opacity: 0.4,
-        duration: 0.2,
+        scale: 25,
+        opacity: 0,
+        duration: 0.25,
+        ease: "power3.in",
+      }, 0.75)
+      .to(ambientAura, {
+        opacity: 0,
+        scale: 2,
+        duration: 0.25,
+      }, 0.75)
+      .to(gridRails, {
+        opacity: 0,
+        duration: 0.25,
       }, 0.75);
 
     }, containerRef);
@@ -305,71 +300,14 @@ export default function WorkIntro() {
         {/* ═════════════════════════════════════════════════════════════════
             GATEWAY APERTURE: PROJECT 01 HINT & TELEMETRY VIEWPORT
            ═════════════════════════════════════════════════════════════════ */}
-        <div className="work-intro-gateway absolute inset-0 z-25 flex items-center justify-center pointer-events-none px-6 md:px-16">
+        <div className="work-intro-gateway absolute inset-0 z-40 flex items-center justify-center pointer-events-none px-6 md:px-16">
           
-          {/* Deep Architectural Numeral '01' */}
-          <span className="work-intro-numeral font-display font-black text-[30vw] md:text-[24vw] leading-none text-white/[0.04] select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 tracking-tighter pointer-events-none">
-            01
+          {/* Deep Architectural Numeral 'SYS.00' */}
+          <span className="work-intro-numeral font-display font-black text-[20vw] md:text-[18vw] leading-none text-white/[0.04] select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 tracking-tighter pointer-events-none whitespace-nowrap">
+            SYS.00
           </span>
 
-          {/* Expanded Viewfinder Caliper Box */}
-          <div className="relative w-full max-w-4xl h-[44vh] md:h-[40vh] border border-white/15 bg-black/50 backdrop-blur-md flex flex-col justify-between p-6 md:p-8 pointer-events-auto shadow-[0_0_50px_rgba(0,0,0,0.9)]">
-            
-            {/* Precision Caliper Corners */}
-            <div className="absolute -top-1.5 -left-1.5 font-mono text-xs text-[#FF2222]">┌</div>
-            <div className="absolute -top-1.5 -right-1.5 font-mono text-xs text-[#FF2222]">┐</div>
-            <div className="absolute -bottom-1.5 -left-1.5 font-mono text-xs text-[#FF2222]">└</div>
-            <div className="absolute -bottom-1.5 -right-1.5 font-mono text-xs text-[#FF2222]">┘</div>
 
-            {/* Aperture Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-[#FF2222] animate-pulse" />
-                <span className="font-mono text-[10px] md:text-[11px] tracking-[0.28em] text-white/90 uppercase font-medium">
-                  PROJECT 01 // 04 · STAGE ACTIVE
-                </span>
-              </div>
-              <span className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-white/40 uppercase">
-                LATENCY 14ms · DEPLOYED
-              </span>
-            </div>
-
-            {/* Aperture Center: Project 01 Identity */}
-            <div className="my-auto py-2">
-              <div className="flex items-baseline gap-3 mb-1">
-                <span className="font-mono text-xs md:text-sm text-[#FF2222] font-semibold tracking-wider">01</span>
-                <h3 className="font-display font-bold text-2xl md:text-4xl text-ghost uppercase tracking-tight">
-                  FINYATRA
-                </h3>
-              </div>
-              <p className="font-mono text-[10px] md:text-xs text-white/60 uppercase tracking-[0.2em] mb-3">
-                GAMIFIED FINANCIAL LITERACY PLATFORM
-              </p>
-              <p className="font-sans text-xs md:text-sm text-white/75 font-light max-w-xl line-clamp-2 leading-relaxed">
-                Full-stack ecosystem gamifying complex financial mechanics through structured modules, real-time streaks, and tactile 3D tilt interaction.
-              </p>
-            </div>
-
-            {/* Aperture Footer: Tech Stack Chips + Action */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-white/10">
-              <div className="flex items-center gap-2 flex-wrap font-mono text-[9px] md:text-[10px] text-white/50 tracking-wider">
-                <span className="text-[#FF2222]">STACK:</span>
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/80">REACT</span>
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/80">NODE.JS</span>
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/80">REDIS</span>
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/80">MONGODB</span>
-              </div>
-
-              <button
-                onClick={scrollToFirstProject}
-                className="group flex items-center gap-2 font-mono text-[9px] md:text-[11px] tracking-[0.25em] text-[#FF2222] uppercase hover:text-white transition-colors cursor-pointer"
-              >
-                <span>ENTER ARCHIVE</span>
-                <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
-              </button>
-            </div>
-
-          </div>
         </div>
 
         {/* ═════════════════════════════════════════════════════════════════

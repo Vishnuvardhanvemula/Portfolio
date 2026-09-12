@@ -4,55 +4,50 @@ import { Github, Linkedin, Twitter, ArrowUp, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 
 const socials = [
-    { icon: <Github className="w-4 h-4" />, label: "GitHub", href: "https://github.com/Vishnuvardhanvemula" },
-    { icon: <Linkedin className="w-4 h-4" />, label: "LinkedIn", href: "https://linkedin.com/in/vishnuvardhanvemula" },
-    { icon: <Twitter className="w-4 h-4" />, label: "Twitter", href: "https://twitter.com/vishnu_dev" },
-    { icon: <Mail className="w-4 h-4" />, label: "Email", href: "mailto:vishnuvardhan2431s@gmail.com" },
+    { icon: <Github className="w-4 h-4" />, label: "GITHUB", href: "https://github.com/Vishnuvardhanvemula" },
+    { icon: <Linkedin className="w-4 h-4" />, label: "LINKEDIN", href: "https://linkedin.com/in/vishnuvardhanvemula" },
+    { icon: <Twitter className="w-4 h-4" />, label: "TWITTER_X", href: "https://twitter.com/vishnu_dev" },
+    { icon: <Mail className="w-4 h-4" />, label: "EMAIL", href: "mailto:vishnuvardhan2431s@gmail.com" },
 ];
 
 const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    { label: "Work", href: "#work" },
-    { label: "Contact", href: "#contact" },
+    { label: "// ABOUT", href: "#about" },
+    { label: "// SKILLS", href: "#skills" },
+    { label: "// WORK", href: "#work" },
+    { label: "// CONTACT", href: "#contact" },
 ];
 
 export default function Footer() {
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
     return (
-        <footer className="w-full border-t border-white/5 bg-background/80 backdrop-blur-sm py-16 z-10 relative">
+        <footer className="w-full border-t border-white/5 bg-background py-16 z-10 relative">
             <div className="max-w-7xl mx-auto px-6">
-
+                
                 {/* Top Row */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 mb-12">
-
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 mb-16">
+                    
                     {/* Brand */}
                     <div>
-                        <a href="#" className="text-2xl font-heading font-bold text-white tracking-tight block mb-2">
-                            Vishnu<span className="text-primary">.</span>dev
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-2 h-2 bg-[#FF2222] animate-pulse" />
+                            <span className="font-mono text-[10px] tracking-[0.2em] text-[#FF2222]">SYSTEM_ONLINE</span>
+                        </div>
+                        <a href="#" className="text-3xl font-heading font-bold text-white tracking-tight block mb-2 uppercase">
+                            Vishnu<span className="text-[#FF2222]">_</span>
                         </a>
-                        <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+                        <p className="font-mono text-[10px] text-white/50 tracking-widest uppercase max-w-xs leading-relaxed">
                             Building intelligent systems at the intersection of code and data.
                         </p>
-
-                        {/* Availability */}
-                        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                            </span>
-                            <span className="text-xs font-medium text-green-400">Open to full-time roles</span>
-                        </div>
                     </div>
 
                     {/* Nav Links */}
-                    <div className="flex gap-8">
+                    <div className="flex flex-wrap gap-x-8 gap-y-4">
                         {navLinks.map((link) => (
                             <a
                                 key={link.label}
                                 href={link.href}
-                                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                className="font-mono text-[10px] text-white/50 hover:text-[#FF2222] transition-colors tracking-widest"
                             >
                                 {link.label}
                             </a>
@@ -62,43 +57,50 @@ export default function Footer() {
                     {/* Back to top */}
                     <motion.button
                         onClick={scrollToTop}
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.95 }}
-                        className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-sm text-muted-foreground hover:text-foreground"
+                        className="hidden md:flex flex-col items-center gap-2 group"
                     >
-                        <ArrowUp className="w-4 h-4" />
-                        Back to top
+                        <div className="p-3 border border-white/10 bg-white/5 group-hover:border-[#FF2222]/50 group-hover:text-[#FF2222] transition-colors">
+                            <ArrowUp className="w-4 h-4 text-white/50 group-hover:text-[#FF2222]" />
+                        </div>
+                        <span className="font-mono text-[9px] text-white/40 uppercase tracking-widest group-hover:text-[#FF2222] transition-colors">
+                            RETURN_0
+                        </span>
                     </motion.button>
                 </div>
 
-                {/* Divider */}
-                <div className="h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8" />
+                {/* Divider with Crosshairs */}
+                <div className="relative h-[1px] bg-white/10 mb-8">
+                    <div className="absolute -top-1 -left-1 font-mono text-[9px] text-[#FF2222]">┼</div>
+                    <div className="absolute -top-1 -right-1 font-mono text-[9px] text-[#FF2222]">┼</div>
+                </div>
 
                 {/* Bottom Row */}
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-                    <p className="text-sm text-muted-foreground">
-                        © {new Date().getFullYear()} Vishnu Vardhan. Crafted with ❤️ and caffeine.
-                    </p>
+                    <div className="flex items-center gap-4">
+                        <p className="font-mono text-[9px] text-white/40 uppercase tracking-widest">
+                            © {new Date().getFullYear()} VISHNU VARDHAN. ALL SYSTEMS NORMAL.
+                        </p>
+                    </div>
 
                     {/* Social Icons */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4">
                         {socials.map((s) => (
-                            <motion.a
+                            <a
                                 key={s.label}
                                 href={s.href}
                                 target={s.href.startsWith("http") ? "_blank" : undefined}
                                 rel="noopener noreferrer"
                                 title={s.label}
-                                whileHover={{ scale: 1.15 }}
-                                whileTap={{ scale: 0.9 }}
-                                className="p-2.5 rounded-full bg-white/5 border border-white/10 text-muted-foreground hover:text-foreground hover:bg-white/10 hover:border-white/20 transition-all"
+                                className="font-mono text-[10px] text-white/40 hover:text-[#FF2222] transition-colors tracking-widest"
                             >
-                                {s.icon}
-                            </motion.a>
+                                [{s.label}]
+                            </a>
                         ))}
                     </div>
                 </div>
-
+                
             </div>
         </footer>
     );
