@@ -61,7 +61,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="w-full max-w-7xl mx-auto px-6 py-24 z-10 relative border-t border-white/5">
+        <section id="contact" className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-24 z-10 relative border-t border-white/5">
             <div className="flex items-center gap-4 text-[10px] font-mono tracking-widest text-[#FF2222] mb-12">
                 <Crosshair />
                 <span>05 — SECURE COMMUNICATIONS</span>

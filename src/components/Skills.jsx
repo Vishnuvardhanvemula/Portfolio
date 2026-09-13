@@ -50,7 +50,7 @@ const Crosshair = ({ className = "" }) => (
 
 export default function Skills() {
     return (
-        <section id="skills" className="w-full max-w-7xl mx-auto px-6 py-24 z-10 relative">
+        <section id="skills" className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-24 z-10 relative">
             <div className="flex items-center gap-4 text-[10px] font-mono tracking-widest text-[#FF2222] mb-12">
                 <Crosshair />
                 <span>03 — SYSTEM CAPABILITIES & COMPUTE</span>

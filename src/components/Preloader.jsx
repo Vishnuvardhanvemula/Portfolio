@@ -156,45 +156,45 @@ export default function Preloader({ onComplete }) {
       />
 
       {/* STAGE 01: The Void Text */}
-      <div className="absolute inset-0 z-10 p-12 flex flex-col justify-between pointer-events-none">
-        <div className="flex justify-between w-full mt-24">
-          <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase system-text">
+      <div className="absolute inset-0 z-10 p-6 md:p-12 flex flex-col justify-between pointer-events-none">
+        <div className="flex justify-between w-full mt-12 md:mt-24">
+          <span className="font-mono text-[9px] md:text-[10px] tracking-[0.4em] text-white/70 uppercase system-text">
             SYSTEM DETECTED
           </span>
-          <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase system-text">
+          <span className="font-mono text-[9px] md:text-[10px] tracking-[0.4em] text-white/70 uppercase system-text">
             BUILD 01
           </span>
         </div>
-        <div className="flex justify-between w-full mb-24">
-          <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase system-text">
+        <div className="flex justify-between w-full mb-12 md:mb-24">
+          <span className="font-mono text-[9px] md:text-[10px] tracking-[0.4em] text-white/70 uppercase system-text">
             VISUAL ENGINE INITIALIZING
           </span>
-          <span className="font-mono text-[9px] tracking-[0.4em] text-white/70 uppercase system-text">
+          <span className="font-mono text-[9px] md:text-[10px] tracking-[0.4em] text-white/70 uppercase system-text">
             STATUS: ONLINE
           </span>
         </div>
       </div>
 
       {/* STAGE 03: Kinetic Progress */}
-      <div className="absolute bottom-12 right-12 z-30 progress-container origin-bottom-right flex flex-col items-end gap-2 text-right">
+      <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-30 progress-container origin-bottom-right flex flex-col items-end gap-1 md:gap-2 text-right">
          <span className="font-mono text-[16vw] md:text-[12vw] text-accent font-bold tracking-tighter drop-shadow-[0_0_12px_rgba(230,0,0,0.8)] leading-none">
            {progress}%
          </span>
-         <span className="font-mono text-[9px] tracking-[0.4em] text-white uppercase opacity-70">
+         <span className="font-mono text-[9px] md:text-[10px] tracking-[0.4em] text-white uppercase opacity-70">
            Calibrating
          </span>
       </div>
 
       {/* STAGE 02: Identity Assembly (Matches Hero Layout Exactly) */}
       <div className="relative z-20 flex-1 flex flex-col items-center justify-center w-full h-full">
-        <div className="flex flex-col items-center leading-[0.8] tracking-tighter">
+        <div className="flex flex-col items-center leading-[0.8] tracking-tighter w-full max-w-[90vw] md:max-w-none">
           <div className="overflow-hidden pb-2">
             <SplitText 
               text="VISHNU" 
               containerClassName="font-display font-bold text-[18vw] md:text-[14vw] text-ghost uppercase lockup-first tracking-[-0.04em]" 
             />
           </div>
-          <div className="overflow-hidden -mt-[6vw] md:-mt-[4vw] ml-[20vw] pb-6">
+          <div className="overflow-hidden -mt-[6vw] md:-mt-[4vw] ml-[15vw] md:ml-[20vw] pb-6">
             <SplitText 
               text="Vardhan." 
               containerClassName="font-serif italic font-medium text-[20vw] md:text-[16vw] text-outline lockup-last pr-4 mix-blend-screen" 

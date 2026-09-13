@@ -51,15 +51,13 @@ export default function Hero() {
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
-      // Cinematic Scroll Choreography with Zero-Dead-Space Blueprint Hand-off
+      // Simple Cross-Dissolve Choreography
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: pinRef.current,
+          trigger: containerRef.current,
           start: "top top",
-          end: "+=95%",
+          end: "bottom top", 
           scrub: 1.0,
-          pin: true,
-          anticipatePin: 1,
         }
       });
 
@@ -69,107 +67,35 @@ export default function Hero() {
       const hudBottom = ".hud-corner-bottom";
       const ambient1 = ".animate-ambient-1";
       const ambient2 = ".animate-ambient-2";
-      const grain = ".hero-grain";
-      const blueprintGrid = ".blueprint-grid";
-      const blueprintBrackets = ".blueprint-bracket";
-      const blueprintTelemetry = ".blueprint-telemetry";
 
-      // ── PHASE 1 (0.0 - 0.4): AMBIENT LIGHTING & SUBTLE ZOOM ──────────────
-      tl.to(ambient1, {
-        scale: 1.2,
-        opacity: 0.35,
-        yPercent: -10,
-        ease: "none",
-      }, 0)
-      .to(ambient2, {
-        scale: 1.2,
-        opacity: 0.35,
-        yPercent: 10,
-        ease: "none",
-      }, 0)
-      .to(grain, {
-        opacity: 0.4,
-        ease: "none",
-      }, 0)
-
-      // ── PHASE 2 (0.25 - 0.7): BLUEPRINT MATRIX & WIREFRAME DECONSTRUCTION
-      // Grid rails illuminate and stay active right into the hand-off
-      .to(blueprintGrid, {
-        opacity: 0.35,
-        duration: 0.3,
+      // ── SIMPLE CROSS-DISSOLVE EFFECT ──────────────
+      // Slow fade and slight drift upwards
+      tl.to([lockupFirst, lockupLast, ".blueprint-box"], {
+        y: -50,
+        opacity: 0,
+        duration: 1,
         ease: "power2.out",
-      }, 0.2)
-      // Corner brackets snap to lockup bounds
-      .to(blueprintBrackets, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.25,
-        stagger: 0.03,
-        ease: "back.out(1.7)",
-      }, 0.25)
-      // Telemetry readout illuminates
-      .to(blueprintTelemetry, {
-        opacity: 0.85,
-        duration: 0.25,
-      }, 0.3)
-      // VISHNU & Vardhan. solid fills deconstruct into luminous wireframe stroke
-      .to(lockupFirst, {
-        color: "transparent",
-        webkitTextStroke: "1.2px rgba(255,255,255,0.8)",
-        textShadow: "0 0 25px rgba(255,255,255,0.4)",
-        duration: 0.4,
-        ease: "power2.inOut",
-      }, 0.3)
-      .to(lockupLast, {
-        color: "transparent",
-        webkitTextStroke: "1.2px rgba(255,255,255,0.8)",
-        textShadow: "0 0 25px rgba(230,0,0,0.5)",
-        duration: 0.4,
-        ease: "power2.inOut",
-      }, 0.3)
-
-      // ── PHASE 3 (0.6 - 1.0): SEAMLESS DOCKING DOWNWARD ALONG VERTICAL RAILS
-      // Brackets guide typography downward
-      .to(blueprintBrackets, {
-        x: (i) => (i % 2 === 0 ? 30 : -30),
-        duration: 0.4,
-        ease: "power2.inOut",
-      }, 0.55)
-      // Wireframe typography and bounding box glide down the rails into Manifesto
-      .to([lockupFirst, lockupLast, ".blueprint-box"], {
-        yPercent: 30,
-        opacity: 0,
-        filter: "blur(4px)",
-        duration: 0.45,
-        ease: "power2.in",
-      }, 0.55)
-      // Perimeter HUD corners track along rails and dissolve
+      }, 0)
+      // Fade out HUDs cleanly
       .to(hudTop, {
-        y: 40,
+        y: -20,
         opacity: 0,
-        duration: 0.4,
-        stagger: 0.03,
-        ease: "power2.in",
-      }, 0.6)
+        duration: 1,
+        ease: "power2.out",
+      }, 0)
       .to(hudBottom, {
-        y: -30,
+        y: 20,
         opacity: 0,
-        duration: 0.4,
-        stagger: 0.03,
-        ease: "power2.in",
-      }, 0.6)
-      // Ambient lighting smoothly eases into Manifesto's ambient warmth
+        duration: 1,
+        ease: "power2.out",
+      }, 0)
+      // Subtle parallax on ambients
       .to([ambient1, ambient2], {
-        opacity: 0.12,
-        duration: 0.4,
-        ease: "power2.inOut",
-      }, 0.6)
-      // Telemetry completes state and glides downward
-      .to(blueprintTelemetry, {
-        y: 25,
-        opacity: 0,
-        duration: 0.35,
-      }, 0.65);
+        yPercent: -15,
+        opacity: 0.2,
+        duration: 1,
+        ease: "none",
+      }, 0);
 
     }, containerRef);
 
@@ -184,9 +110,12 @@ export default function Hero() {
   };
 
   return (
-    <section ref={containerRef} className="relative w-full bg-void">
-      {/* Pinned Viewport Container */}
-      <div ref={pinRef} className="relative h-screen w-full overflow-hidden">
+    <section className="relative w-full bg-void">
+      <section 
+        ref={containerRef} 
+        id="home" 
+        className="relative h-screen w-full overflow-hidden bg-void flex flex-col justify-between px-4 sm:px-6 md:px-12 lg:px-16 pt-28 pb-8 md:pb-12 text-foreground"
+      >
         
         {/* Ambient Cinematic Background (Crimson & Ember) */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -305,7 +234,7 @@ export default function Hero() {
           </div>
         </div>
 
-      </div>
+      </section>
     </section>
   );
 }

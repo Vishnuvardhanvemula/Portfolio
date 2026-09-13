@@ -85,7 +85,7 @@ export default function ProjectShowcase() {
             </div>
 
             {/* Title HUD */}
-            <div className="lg:absolute lg:top-6 lg:left-6 xl:left-16 z-20 flex items-center gap-4 text-[10px] md:text-xs font-mono tracking-widest text-[#FF2222] px-6 lg:px-0 mb-12 lg:mb-0">
+            <div className="lg:absolute lg:top-6 lg:left-6 xl:left-16 z-20 flex items-center gap-4 text-[10px] md:text-xs font-mono tracking-widest text-[#FF2222] px-4 sm:px-6 md:px-12 lg:px-0 mb-12 lg:mb-0">
                 <Crosshair className="text-[#FF2222] hidden lg:block" />
                 <span>ARCHIVE // ACTIVE DEPLOYMENTS</span>
             </div>
@@ -98,7 +98,7 @@ export default function ProjectShowcase() {
                 {projects.map((project, index) => (
                     <div 
                         key={project.id} 
-                        className="showcase-panel w-full lg:w-screen h-full flex-shrink-0 flex flex-col justify-center px-6 lg:px-16 xl:px-32 mb-20 lg:mb-0"
+                        className="showcase-panel w-full lg:w-screen h-full flex-shrink-0 flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-16 xl:px-32 mb-20 lg:mb-0"
                     >
                         <div className="w-full h-full lg:h-[70vh] max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-16 relative">
                             

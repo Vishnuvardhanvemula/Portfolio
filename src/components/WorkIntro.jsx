@@ -97,84 +97,28 @@ export default function WorkIntro() {
           { opacity: 0, y: 10 }, 
           { opacity: 0.85, y: 0, ease: "none" }, 
           0.15
-        );
+        )
+        .to(pivotArea, { y: 0, opacity: 1, ease: "none" }, 0.2)
+        .to(ambientAura, { opacity: 0.55, scale: 1.2, ease: "none" }, 0.2)
+        .to(numeralBg, { scale: 1, opacity: 0.15, ease: "none" }, 0.2);
 
-      // ── 2. PINNED TIMELINE: CONCEPTUAL PIVOT & WARP TRANSITION ─────────
+      // ── 2. SCROLL OUT TIMELINE: ELEGANT CROSS-DISSOLVE ─────────
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: pinEl,
+          trigger: containerRef.current,
           start: "top top",
-          end: isDesktop ? "+=200%" : "+=130%",
-          scrub: isDesktop ? 1.0 : 0.8,
-          pin: true,
-          anticipatePin: 1,
+          end: "bottom top",
+          scrub: 1.0,
         },
       });
 
-      // STAGE 1: CONCEPTUAL PIVOT (0.00 – 0.35)
-      tl.to(pivotArea, {
-        y: 0,
-        opacity: 1,
-        duration: 0.3,
+      // Slowly fade and drift out everything to seamlessly handoff to Projects
+      tl.to([selectedWord, workWord, pivotArea, laserBeam, hudPerimeter, footerPerimeter, numeralBg, gridRails, ambientAura], {
+        y: -50,
+        opacity: 0,
+        duration: 1,
         ease: "power2.out",
-      }, 0)
-      .to(ambientAura, {
-        opacity: 0.55,
-        scale: 1.2,
-        duration: 0.35,
-        ease: "power2.out",
-      }, 0.05)
-
-      // STAGE 2: TYPOGRAPHY DEPARTS & SYS.00 EMERGES (0.35 – 0.75)
-      .to(selectedWord, {
-        yPercent: isDesktop ? -55 : -45,
-        scale: isDesktop ? 0.8 : 0.85,
-        opacity: 0,
-        duration: 0.35,
-        ease: "power2.inOut",
-      }, 0.35)
-      .to(workWord, {
-        yPercent: isDesktop ? 55 : 45,
-        scale: isDesktop ? 0.8 : 0.85,
-        opacity: 0,
-        duration: 0.35,
-        ease: "power2.inOut",
-      }, 0.35)
-      .to(pivotArea, {
-        opacity: 0,
-        scale: 0.9,
-        duration: 0.2,
-        ease: "power2.in",
-      }, 0.35)
-      .to(laserBeam, {
-        opacity: 0,
-        scaleX: 0,
-        duration: 0.2,
-      }, 0.35)
-      .to(numeralBg, {
-        scale: 1,
-        opacity: 0.15,
-        duration: 0.4,
-        ease: "power2.out",
-      }, 0.35)
-
-      // STAGE 3: WARP RESOLUTION (0.75 – 1.00)
-      // Fly through the numeral towards the next section
-      .to(numeralBg, {
-        scale: 25,
-        opacity: 0,
-        duration: 0.25,
-        ease: "power3.in",
-      }, 0.75)
-      .to(ambientAura, {
-        opacity: 0,
-        scale: 2,
-        duration: 0.25,
-      }, 0.75)
-      .to(gridRails, {
-        opacity: 0,
-        duration: 0.25,
-      }, 0.75);
+      }, 0);
 
     }, containerRef);
 
@@ -198,7 +142,7 @@ export default function WorkIntro() {
       {/* Pinned Screen Viewport */}
       <div 
         ref={pinRef} 
-        className="relative h-screen w-full overflow-hidden flex flex-col justify-between px-6 md:px-16 pt-24 md:pt-28 pb-8 md:pb-12"
+        className="relative h-screen w-full overflow-hidden flex flex-col justify-between px-4 sm:px-6 md:px-12 lg:px-16 pt-24 md:pt-28 pb-8 md:pb-12"
       >
         {/* ═════════════════════════════════════════════════════════════════
             ATMOSPHERIC CANVAS & CONTINUITY GLOW (RECEIVES MANIFESTO)

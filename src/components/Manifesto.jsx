@@ -75,8 +75,8 @@ export default function Manifesto() {
 
       // ── INITIAL STATE (Explicit transforms) ──
       gsap.set(line1, { yPercent: 30, opacity: 0 });
-      gsap.set(line2, { yPercent: 110, opacity: 0 });
-      gsap.set(line3, { yPercent: 110, opacity: 0 });
+      gsap.set(line2, { yPercent: 30, opacity: 0 });
+      gsap.set(line3, { yPercent: 30, opacity: 0 });
       gsap.set(subtext, { y: 20, opacity: 0 });
       gsap.set(tags, { opacity: 0, x: isDesktop ? -20 : 0 });
       gsap.set(exitArea, { y: 16, opacity: 0 });
@@ -234,7 +234,7 @@ export default function Manifesto() {
       {/* Pinned Screen Viewport with generous top breathing room */}
       <div 
         ref={pinRef} 
-        className="relative h-screen w-full overflow-hidden flex flex-col justify-between px-6 md:px-16 pt-24 md:pt-28 pb-8 md:pb-12"
+        className="relative h-screen w-full overflow-hidden flex flex-col justify-between px-4 sm:px-6 md:px-12 lg:px-16 pt-24 md:pt-28 pb-8 md:pb-12"
       >
         {/* Continuous Atmospheric Background (Seamless flow from Hero) */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
